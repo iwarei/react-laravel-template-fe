@@ -36,6 +36,7 @@ module.exports = {
     'react/button-has-type': 'off',
     'import/prefer-default-export': 'off',
     'arrow-body-style': 'off',
+    'import/no-extraneous-dependencies': ['error', { devDependencies: true }],
   },
   settings: {
     'import/resolver': {

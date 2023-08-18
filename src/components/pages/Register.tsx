@@ -2,6 +2,7 @@ import React, { useState, ChangeEvent } from 'react';
 import axios from 'axios';
 import { PrimaryButton } from '../atoms/Button';
 import { InputFormWithLabel } from '../molecules/InputFormWithLabel';
+import { Navbar } from '../organism/Navbar';
 
 export const Register = () => {
   const initialReqData = {
@@ -13,7 +14,7 @@ export const Register = () => {
 
   const [reqData, setReqData] = useState(initialReqData);
 
-  const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
+  const inputChangeHandler = (event: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
     console.log(event.target);
     setReqData((prevData) => ({
@@ -26,43 +27,45 @@ export const Register = () => {
     const csrf = () => axios.get('http://localhost/sanctum/csrf-cookie');
     await csrf();
 
-    const reqData1 = {
-      name: 'example',
-      email: 'example@example.com',
-      password: 'password',
-      password_confirmation: 'password',
-    };
-
-    await axios
-      .post('http://localhost/register', reqData1, {
-        withCredentials: true,
+    axios
+      .post('http://localhost/api/register', reqData, {
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+        },
       })
-      .then((res) => {
-        console.log(res);
+      .then((response) => {
+        if (response.status === 204) {
+          window.location.href = '/';
+        }
+      })
+      .catch((error) => {
+        console.error(error);
       });
   };
 
   return (
     <>
+      <Navbar />
       <InputFormWithLabel
         labelText="名前"
         formName="name"
-        onChange={handleInputChange}
+        onChange={inputChangeHandler}
       />
       <InputFormWithLabel
         labelText="メールアドレス"
         formName="email"
-        onChange={handleInputChange}
+        onChange={inputChangeHandler}
       />
       <InputFormWithLabel
         labelText="パスワード"
         formName="password"
-        onChange={handleInputChange}
+        onChange={inputChangeHandler}
       />
       <InputFormWithLabel
         labelText="パスワード (確認用)"
         formName="password_confirmation"
-        onChange={handleInputChange}
+        onChange={inputChangeHandler}
       />
       <PrimaryButton
         type="button"
