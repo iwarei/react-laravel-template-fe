@@ -2,7 +2,7 @@ import React, { useState, ChangeEvent } from 'react';
 import axios from 'axios';
 import { PrimaryButton } from '../atoms/Button';
 import { InputFormWithLabel } from '../molecules/InputFormWithLabel';
-import { Navbar } from '../organism/Navbar';
+import { PageTemplete } from '../templates/PageTemplate';
 
 export const Register = () => {
   const initialReqData = {
@@ -24,11 +24,12 @@ export const Register = () => {
   };
 
   const registerEventHandler = async () => {
-    const csrf = () => axios.get('http://localhost/sanctum/csrf-cookie');
+    const csrf = () =>
+      axios.get(`${process.env.REACT_APP_BACKEND_URL}/sanctum/csrf-cookie`);
     await csrf();
 
     axios
-      .post('http://localhost/api/register', reqData, {
+      .post(`${process.env.REACT_APP_BACKEND_URL}/api/register`, reqData, {
         headers: {
           Accept: 'application/json',
           'Content-Type': 'application/json',
@@ -45,8 +46,7 @@ export const Register = () => {
   };
 
   return (
-    <>
-      <Navbar />
+    <PageTemplete headerText="ユーザー登録">
       <InputFormWithLabel
         labelText="名前"
         formName="name"
@@ -73,6 +73,6 @@ export const Register = () => {
         id="register-button"
         onClickHandler={registerEventHandler}
       />
-    </>
+    </PageTemplete>
   );
 };

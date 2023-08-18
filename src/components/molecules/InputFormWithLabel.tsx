@@ -28,7 +28,7 @@ export const InputFormWithLabel = ({
   onChange,
 }: InputFormWithLabelProps) => {
   return (
-    <div>
+    <div className="mb-4">
       <Label
         text={labelText}
         className={labelClass}

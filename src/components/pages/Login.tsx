@@ -3,6 +3,7 @@ import axios from 'axios';
 import { PrimaryButton } from '../atoms/Button';
 import { InputFormWithLabel } from '../molecules/InputFormWithLabel';
 import { Navbar } from '../organism/Navbar';
+import { PageTemplete } from '../templates/PageTemplate';
 
 export const Login = () => {
   const initialReqData = {
@@ -22,22 +23,26 @@ export const Login = () => {
   };
 
   const loginEventHandler = async () => {
+    const csrf = () =>
+      axios.get(`${process.env.REACT_APP_BACKEND_URL}/sanctum/csrf-cookie`);
+    await csrf();
+
     await axios
-      .post('http://localhost/api/login', reqData, {
+      .post(`${process.env.REACT_APP_BACKEND_URL}/api/login`, reqData, {
         withCredentials: true,
       })
-      .then((res) => {
-        console.log(res);
-        window.location.href = '/';
+      .then((response) => {
+        if (response.status === 204) {
+          window.location.href = '/';
+        }
       })
-      .catch((res) => {
-        console.log(res);
+      .catch((error) => {
+        console.log(error);
       });
   };
 
   return (
-    <>
-      <Navbar />
+    <PageTemplete headerText="ログイン">
       <InputFormWithLabel
         labelText="メールアドレス"
         formName="email"
@@ -54,6 +59,6 @@ export const Login = () => {
         id="login-button"
         onClickHandler={loginEventHandler}
       />
-    </>
+    </PageTemplete>
   );
 };
