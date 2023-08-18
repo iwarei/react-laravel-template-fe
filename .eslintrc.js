@@ -26,7 +26,17 @@ module.exports = {
     project: 'tsconfig.json',
   },
   plugins: ['react'],
-  rules: {},
+  rules: {
+    '@typescript-eslint/no-unused-vars': ['warn'],
+    'react/require-default-props': 'off',
+    'react/function-component-definition': [
+      2,
+      { namedComponents: 'arrow-function' },
+    ],
+    'react/button-has-type': 'off',
+    'import/prefer-default-export': 'off',
+    'arrow-body-style': 'off',
+  },
   settings: {
     'import/resolver': {
       node: {
