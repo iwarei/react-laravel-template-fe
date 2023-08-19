@@ -78,7 +78,7 @@ export const Login = () => {
         />
         <Link
           text="パスワードを忘れた場合"
-          href="/reset-password"
+          href="/forgot-password"
           addClass={['absolute', '-right-0', 'sm:text-xs', 'md:text-base']}
         />
       </div>

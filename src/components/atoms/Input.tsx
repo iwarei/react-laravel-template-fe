@@ -54,6 +54,7 @@ export const InputForm = ({
       disabled={disabled ?? false}
       onChange={onChange}
       required={required}
+      defaultValue={value ?? ''}
     />
   );
 };
