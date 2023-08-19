@@ -1,10 +1,12 @@
 import React, { useState, ChangeEvent } from 'react';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 import { PrimaryButton } from '../atoms/Button';
 import { InputFormWithLabel } from '../molecules/InputFormWithLabel';
 import { PageTemplete } from '../templates/PageTemplate';
 
 export const Register = () => {
+  const navigate = useNavigate();
   const initialReqData = {
     name: '',
     email: '',
@@ -36,8 +38,9 @@ export const Register = () => {
         },
       })
       .then((response) => {
+        console.log(response);
         if (response.status === 204) {
-          window.location.href = '/';
+          navigate('/');
         }
       })
       .catch((error) => {

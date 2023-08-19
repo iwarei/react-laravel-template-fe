@@ -7,7 +7,7 @@ import { Home } from './components/pages/Home';
 import { Login } from './components/pages/Login';
 import { Register } from './components/pages/Register';
 import { ErrorPage } from './components/pages/ErrorPage';
-import { AuthProvider } from './context/AuthContext';
+import { AuthProvider } from './context/AuthProvider';
 
 const App = () => {
   axios.defaults.withCredentials = true;
