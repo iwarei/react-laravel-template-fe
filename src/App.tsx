@@ -3,6 +3,7 @@ import axios from 'axios';
 // import logo from './logo.svg';
 import './App.css';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { RouteAuthGuard } from './RouteAuthGuard';
 import { Home } from './components/pages/Home';
 import { Login } from './components/pages/Login';
 import { Register } from './components/pages/Register';
@@ -16,7 +17,14 @@ const App = () => {
     <AuthProvider>
       <BrowserRouter>
         <Routes>
-          <Route path="" element={<Home />} />
+          <Route
+            path=""
+            element={
+              <RouteAuthGuard redirect="/login">
+                <Home />
+              </RouteAuthGuard>
+            }
+          />
           <Route path="register" element={<Register />} />
           <Route path="login" element={<Login />} />
           <Route path="reset-password" element={<ResetPassword />} />
