@@ -1,18 +1,20 @@
 import axios from 'axios';
 import React, { useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { AuthContext } from '../../context/AuthProvider';
+import { IsAuthedContext, AuthInfoContext } from '../../context/AuthProvider';
 
 export const Navbar = () => {
   const navigate = useNavigate();
-  const { userInfo, setUserInfo } = useContext(AuthContext)!;
+  const { isAuthed, setIsAuthed } = useContext(IsAuthedContext)!;
+  const { userInfo, setUserInfo } = useContext(AuthInfoContext)!;
 
   const logoutHandler = () => {
     axios
       .post(`${process.env.REACT_APP_BACKEND_URL}/api/logout`)
       .then((response) => {
         const logoutProcess = () => {
-          // 保持していたユーザ情報を空にする
+          // ログイン状態の変更と保持していたユーザ情報を空にする
+          setIsAuthed(false);
           setUserInfo(undefined);
           navigate('/login');
         };

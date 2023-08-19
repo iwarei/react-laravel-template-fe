@@ -6,12 +6,21 @@ type UserInfo = {
   email: string;
 };
 
-type AuthContextType = {
+type AuthInfoContextType = {
   userInfo: UserInfo | undefined;
   setUserInfo: React.Dispatch<React.SetStateAction<UserInfo | undefined>>;
 };
 
-export const AuthContext = createContext<AuthContextType | undefined>(
+type IsAuthedContextType = {
+  isAuthed: boolean;
+  setIsAuthed: React.Dispatch<React.SetStateAction<boolean>>;
+};
+
+export const AuthInfoContext = createContext<AuthInfoContextType | undefined>(
+  undefined
+);
+
+export const IsAuthedContext = createContext<IsAuthedContextType | undefined>(
   undefined
 );
 
@@ -20,9 +29,10 @@ type AuthProviderProps = {
 };
 
 export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
+  const [isAuthed, setIsAuthed] = useState<boolean>(false);
   const [userInfo, setUserInfo] = useState<UserInfo | undefined>(undefined);
 
-  const authContextValue: AuthContextType = useMemo(
+  const authInfoContextValue: AuthInfoContextType = useMemo(
     () => ({
       userInfo,
       setUserInfo,
@@ -30,9 +40,19 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     [userInfo]
   );
 
+  const isAuthedContextValue: IsAuthedContextType = useMemo(
+    () => ({
+      isAuthed,
+      setIsAuthed,
+    }),
+    [isAuthed]
+  );
+
   return (
-    <AuthContext.Provider value={authContextValue}>
-      {children}
-    </AuthContext.Provider>
+    <IsAuthedContext.Provider value={isAuthedContextValue}>
+      <AuthInfoContext.Provider value={authInfoContextValue}>
+        {children}
+      </AuthInfoContext.Provider>
+    </IsAuthedContext.Provider>
   );
 };

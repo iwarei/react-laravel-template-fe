@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { PrimaryButton } from '../atoms/Button';
 import { InputFormWithLabel } from '../molecules/InputFormWithLabel';
 import { PageTemplete } from '../templates/PageTemplate';
-import { AuthContext } from '../../context/AuthProvider';
+import { IsAuthedContext, AuthInfoContext } from '../../context/AuthProvider';
 
 export const Register = () => {
   const navigate = useNavigate();
@@ -16,7 +16,8 @@ export const Register = () => {
   };
 
   const [reqData, setReqData] = useState(initialReqData);
-  const { userInfo, setUserInfo } = useContext(AuthContext)!;
+  const { isAuthed, setIsAuthed } = useContext(IsAuthedContext)!;
+  const { userInfo, setUserInfo } = useContext(AuthInfoContext)!;
 
   const inputChangeHandler = (event: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
@@ -46,6 +47,7 @@ export const Register = () => {
               `${process.env.REACT_APP_BACKEND_URL}/api/user`
             );
 
+            setIsAuthed(true);
             setUserInfo({
               id: userInfoRes.data.user.id,
               name: userInfoRes.data.user.name,

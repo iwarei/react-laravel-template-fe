@@ -1,9 +1,9 @@
 import React, { useContext } from 'react';
-import { AuthContext } from '../../context/AuthProvider';
+import { AuthInfoContext } from '../../context/AuthProvider';
 import { PageTemplete } from '../templates/PageTemplate';
 
 export const Home = () => {
-  const { userInfo, setUserInfo } = useContext(AuthContext)!;
+  const { userInfo, setUserInfo } = useContext(AuthInfoContext)!;
   console.log(userInfo);
 
   return (
