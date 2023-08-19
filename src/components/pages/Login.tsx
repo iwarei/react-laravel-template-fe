@@ -18,7 +18,6 @@ export const Login = () => {
   // フォーム入力値変化時のイベントハンドラ
   const inputChangeHandler = (event: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
-    console.log(event.target);
     setReqData((prevData) => ({
       ...prevData,
       [name]: value,

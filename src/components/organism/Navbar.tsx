@@ -1,19 +1,27 @@
 import axios from 'axios';
-import React from 'react';
+import React, { useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { AuthContext } from '../../context/AuthProvider';
 
 export const Navbar = () => {
   const navigate = useNavigate();
+  const { userInfo, setUserInfo } = useContext(AuthContext)!;
 
   const logoutHandler = () => {
     axios
       .post(`${process.env.REACT_APP_BACKEND_URL}/api/logout`)
       .then((response) => {
-        if (response.status === 204) {
+        const logoutProcess = () => {
+          // 保持していたユーザ情報を空にする
+          setUserInfo(undefined);
           navigate('/login');
+        };
+
+        if (response.status === 204) {
+          logoutProcess();
         } else {
           console.log('エラーが発生しました。');
-          navigate('/login');
+          logoutProcess();
         }
       });
   };
