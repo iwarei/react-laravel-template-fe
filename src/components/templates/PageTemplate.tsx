@@ -13,7 +13,7 @@ export const PageTemplete: React.FC<PageTemplateProps> = ({
   return (
     <>
       <Navbar />
-      <main className="max-w-5xl mx-auto py-4 px-2">
+      <main className="max-w-5xl mx-auto py-4 px-6">
         {headerText && (
           <div className="mb-6">
             <h3 className="text-3xl font-bold dark:text-white">{headerText}</h3>

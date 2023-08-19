@@ -1,6 +1,7 @@
 import React, { useState, ChangeEvent, useContext } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { Link } from '../atoms/Link';
 import { PrimaryButton } from '../atoms/Button';
 import { InputFormWithLabel } from '../molecules/InputFormWithLabel';
 import { PageTemplete } from '../templates/PageTemplate';
@@ -87,12 +88,21 @@ export const Register = () => {
         formName="password_confirmation"
         onChange={inputChangeHandler}
       />
-      <PrimaryButton
-        type="button"
-        text="登録"
-        id="register-button"
-        onClickHandler={registerEventHandler}
-      />
+
+      <div className="flex justify-center place-items-center relative">
+        <PrimaryButton
+          type="button"
+          text="登録"
+          id="register-button"
+          addClass={['w-32']}
+          onClickHandler={registerEventHandler}
+        />
+        <Link
+          text="ログイン画面へ"
+          href="/login"
+          addClass={['absolute', '-right-0']}
+        />
+      </div>
     </PageTemplete>
   );
 };

@@ -4,6 +4,7 @@ type InputFormProps = {
   value?: string;
   type?: string;
   className?: string[];
+  addClass?: string[];
   id: string;
   name?: string;
   placeholder?: string;
@@ -33,6 +34,7 @@ export const InputForm = ({
     'dark:focus:ring-blue-500',
     'dark:focus:border-blue-500',
   ],
+  addClass = [],
   id,
   name,
   disabled,
@@ -40,7 +42,7 @@ export const InputForm = ({
   required = false,
   onChange,
 }: InputFormProps) => {
-  const classNames = className ? className.join(' ') : '';
+  const classNames = [...className, ...addClass].join(' ');
 
   return (
     <input

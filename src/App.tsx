@@ -8,6 +8,7 @@ import { Login } from './components/pages/Login';
 import { Register } from './components/pages/Register';
 import { ErrorPage } from './components/pages/ErrorPage';
 import { AuthProvider } from './context/AuthProvider';
+import { ResetPassword } from './components/pages/ResetPassword';
 
 const App = () => {
   axios.defaults.withCredentials = true;
@@ -18,6 +19,7 @@ const App = () => {
           <Route path="" element={<Home />} />
           <Route path="register" element={<Register />} />
           <Route path="login" element={<Login />} />
+          <Route path="reset-password" element={<ResetPassword />} />
           <Route path="dashboard" element={<ErrorPage message="dashboard" />} />
           <Route path="*" element={<ErrorPage />} />
         </Routes>

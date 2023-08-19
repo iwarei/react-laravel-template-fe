@@ -2,6 +2,7 @@ import React, { useState, ChangeEvent, useContext, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { PrimaryButton } from '../atoms/Button';
+import { Link } from '../atoms/Link';
 import { InputFormWithLabel } from '../molecules/InputFormWithLabel';
 import { PageTemplete } from '../templates/PageTemplate';
 import { IsAuthedContext, AuthInfoContext } from '../../context/AuthProvider';
@@ -67,12 +68,20 @@ export const Login = () => {
         formName="password"
         onChange={inputChangeHandler}
       />
-      <PrimaryButton
-        type="button"
-        text="登録"
-        id="login-button"
-        onClickHandler={loginEventHandler}
-      />
+      <div className="flex justify-center place-items-center relative">
+        <PrimaryButton
+          type="button"
+          text="ログイン"
+          id="login-button"
+          addClass={['w-32']}
+          onClickHandler={loginEventHandler}
+        />
+        <Link
+          text="パスワードを忘れた場合"
+          href="/reset-password"
+          addClass={['absolute', '-right-0', 'sm:text-xs', 'md:text-base']}
+        />
+      </div>
     </PageTemplete>
   );
 };

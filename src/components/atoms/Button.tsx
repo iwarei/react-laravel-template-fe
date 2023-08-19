@@ -4,6 +4,7 @@ type PrimaryButtonProps = {
   type: 'button' | 'submit' | 'reset';
   text: string;
   className?: string[];
+  addClass?: string[];
   id: string;
   name?: string;
   disabled?: boolean;
@@ -26,18 +27,19 @@ export const PrimaryButton = ({
     'px-5',
     'py-2.5',
     'text-center',
-    'mr-2',
+    'mx-2',
     'mb-2',
     'dark:bg-blue-600',
     'dark:hover:bg-blue-700',
     'dark:focus:ring-blue-800',
   ],
+  addClass = [],
   id,
   name,
   disabled = false,
   onClickHandler,
 }: PrimaryButtonProps) => {
-  const classNames = className ? className.join(' ') : '';
+  const classNames = [...className, ...addClass].join(' ');
 
   return (
     <button
