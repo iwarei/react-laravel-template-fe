@@ -23,7 +23,11 @@ export const PageTemplete: React.FC<PageTemplateProps> = ({
         {(alert?.msg || location.state?.msg) && (
           <DismissableAlert
             addClass={['mb-3']}
-            color={alert?.color ?? location.state?.color ?? 'failure'}
+            color={
+              alert?.msg
+                ? alert?.color ?? 'success'
+                : location.state?.color ?? 'success'
+            }
             message={alert?.msg ?? location.state?.msg}
           />
         )}
