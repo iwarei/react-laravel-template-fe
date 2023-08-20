@@ -6,7 +6,7 @@ import { IsAuthedContext, AuthInfoContext } from '../../context/AuthProvider';
 export const Navbar = () => {
   const navigate = useNavigate();
   const { isAuthed, setIsAuthed } = useContext(IsAuthedContext)!;
-  const { userInfo, setUserInfo } = useContext(AuthInfoContext)!;
+  const { setUserInfo } = useContext(AuthInfoContext)!;
 
   const logoutHandler = () => {
     const logoutProcess = () => {
@@ -18,16 +18,10 @@ export const Navbar = () => {
 
     axios
       .post(`${process.env.REACT_APP_BACKEND_URL}/api/logout`)
-      .then((response) => {
-        if (response.status === 204) {
-          logoutProcess();
-        } else {
-          console.log('エラーが発生しました。');
-          logoutProcess();
-        }
+      .then(() => {
+        logoutProcess();
       })
-      .catch((error) => {
-        console.log(error);
+      .catch(() => {
         logoutProcess();
       });
   };

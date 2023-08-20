@@ -1,4 +1,4 @@
-import React, { useState, ChangeEvent, useContext, useEffect } from 'react';
+import React, { useState, ChangeEvent, useContext } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { PrimaryButton } from '../atoms/Button';
@@ -15,9 +15,9 @@ export const Login = () => {
     password: '',
   };
   const [reqData, setReqData] = useState(initialReqData);
-  const { isAuthed, setIsAuthed } = useContext(IsAuthedContext)!;
-  const { userInfo, setUserInfo } = useContext(AuthInfoContext)!;
-  const { alert, setAlert } = useContext(AlertContext)!;
+  const { setIsAuthed } = useContext(IsAuthedContext)!;
+  const { setUserInfo } = useContext(AuthInfoContext)!;
+  const { setAlert } = useContext(AlertContext)!;
 
   // フォーム入力値変化時のイベントハンドラ
   const inputChangeHandler = (event: ChangeEvent<HTMLInputElement>) => {
@@ -46,18 +46,18 @@ export const Login = () => {
               name: userInfoRes.data.user.name,
               email: userInfoRes.data.user.email,
             });
-
-            navigate('/', { state: { msg: 'ログインしました。' } });
+            navigate('/', {
+              state: { msg: 'ログインしました。', color: 'success' },
+            });
           };
 
           getUserInfo();
         }
       })
       .catch((error) => {
-        console.log(error.response.data.message);
         setAlert({
           color: 'failure',
-          msg: `ログインできませんでした。[${error.response.data.message}]`,
+          msg: `ログインできませんでした。[${error?.response?.data?.message}]`,
         });
       });
   };

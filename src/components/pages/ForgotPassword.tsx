@@ -1,10 +1,8 @@
 import React, { useState, ChangeEvent, useContext } from 'react';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
 import { PrimaryButton } from '../atoms/Button';
 import { InputFormWithLabel } from '../molecules/InputFormWithLabel';
 import { PageTemplete } from '../templates/PageTemplate';
-import { IsAuthedContext, AuthInfoContext } from '../../context/AuthProvider';
 import { AlertContext } from '../../context/AlertProvider';
 
 export const ForgotPassword = () => {

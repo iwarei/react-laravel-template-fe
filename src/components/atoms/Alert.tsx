@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState } from 'react';
 import { Alert } from 'flowbite-react';
 
 type AlertProps = {
@@ -21,7 +21,7 @@ export const DismissableAlert: React.FC<AlertProps> = ({
   };
 
   return (
-    <>
+    <span>
       {display && (
         <Alert color={color} className={classNames} onDismiss={dismissHandler}>
           <span>
@@ -29,6 +29,6 @@ export const DismissableAlert: React.FC<AlertProps> = ({
           </span>
         </Alert>
       )}
-    </>
+    </span>
   );
 };

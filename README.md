@@ -81,7 +81,55 @@ navigate('/', {
 });
 ```
 
+##### Tips ログインしているユーザ情報を取得したい場合
+1. `useContext`, `AuthInfoContext`をimportします。
+``` typescript
+import React, { useContext } from 'react';
+import { AuthInfoContext } from '../../context/AuthProvider';
+```
+2. コンポーネントのトップレベルで`userInfo`を取得、定義します。
+``` typescript
+const { userInfo } = useContext(AuthInfoContext)!;
+```
+3. 必要に応じて、取得したユーザ情報を使用します。
+``` typescript
+<InputFormWithLabel
+  labelText="メールアドレス"
+  formName="email"
+  value={userInfo.email}
+  onChange={inputChangeHandler}
+/>
+```
 
+※そもそもログイン済みかを判別するときは?
+`userInfo`が`undefined`かでもチェックできますが、なんか嫌なので。
+1. `useContext`, `AuthInfoContext`をimportします。
+``` typescript
+import React, { useContext } from 'react';
+import { IsAuthedContext } from '../../context/AuthProvider';
+```
+2. コンポーネントのトップレベルで`isAuthed`を取得、定義します。
+``` typescript
+  const { isAuthed } = useContext(IsAuthedContext)!;
+```
+3. 条件分岐などで使用します
+``` typescript
+if (isAuthed) {
+  // 処理
+}
+
+rerurn (
+  <span>
+    {isAuthed && (
+      <PrimaryButton 
+        text="ログアウト"
+        id="logout-button"
+        onClick={logoutHandler}
+      />
+    )}
+  </span>
+);
+```
 
 
 

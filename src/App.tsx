@@ -22,7 +22,7 @@ const App = () => {
             <Route
               path=""
               element={
-                <RouteAuthGuard redirect="/login">
+                <RouteAuthGuard>
                   <Home />
                 </RouteAuthGuard>
               }

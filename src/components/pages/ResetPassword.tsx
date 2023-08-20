@@ -4,7 +4,6 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import { PrimaryButton } from '../atoms/Button';
 import { InputFormWithLabel } from '../molecules/InputFormWithLabel';
 import { PageTemplete } from '../templates/PageTemplate';
-import { IsAuthedContext, AuthInfoContext } from '../../context/AuthProvider';
 import { AlertContext } from '../../context/AlertProvider';
 
 export const ResetPassword = () => {
@@ -90,11 +89,13 @@ export const ResetPassword = () => {
       <InputFormWithLabel
         labelText="新しいパスワード"
         formName="password"
+        type="password"
         onChange={inputChangeHandler}
       />
       <InputFormWithLabel
         labelText="新しいパスワード (確認用)"
         formName="password_confirmation"
+        type="password"
         onChange={inputChangeHandler}
       />
 
