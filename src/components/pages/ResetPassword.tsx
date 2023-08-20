@@ -1,10 +1,11 @@
-import React, { useState, ChangeEvent, useEffect } from 'react';
+import React, { useState, ChangeEvent, useEffect, useContext } from 'react';
 import axios from 'axios';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { PrimaryButton } from '../atoms/Button';
 import { InputFormWithLabel } from '../molecules/InputFormWithLabel';
 import { PageTemplete } from '../templates/PageTemplate';
 import { IsAuthedContext, AuthInfoContext } from '../../context/AuthProvider';
+import { AlertContext } from '../../context/AlertProvider';
 
 export const ResetPassword = () => {
   const navigate = useNavigate();
@@ -16,6 +17,7 @@ export const ResetPassword = () => {
   };
 
   const [reqData, setReqData] = useState(initialReqData);
+  const { setAlert } = useContext(AlertContext)!;
 
   const location = useLocation();
   const token = location.pathname.split('/')[2];
@@ -55,14 +57,24 @@ export const ResetPassword = () => {
       )
       .then((response) => {
         if (response.status === 200) {
-          console.log('成功');
+          navigate('/login', {
+            state: {
+              msg: 'パスワードをリセットしました。',
+              color: 'success',
+            },
+          });
         } else {
-          console.log(response);
-          console.log('失敗');
+          setAlert({
+            color: 'failure',
+            msg: `エラーが発生しました。[${response?.data?.message}]`,
+          });
         }
       })
       .catch((error) => {
-        console.error(error);
+        setAlert({
+          color: 'failure',
+          msg: `エラーが発生しました。[${error?.response?.data?.message}]`,
+        });
       });
   };
 

@@ -6,6 +6,7 @@ import { PrimaryButton } from '../atoms/Button';
 import { InputFormWithLabel } from '../molecules/InputFormWithLabel';
 import { PageTemplete } from '../templates/PageTemplate';
 import { IsAuthedContext, AuthInfoContext } from '../../context/AuthProvider';
+import { AlertContext } from '../../context/AlertProvider';
 
 export const Register = () => {
   const navigate = useNavigate();
@@ -19,6 +20,7 @@ export const Register = () => {
   const [reqData, setReqData] = useState(initialReqData);
   const { setIsAuthed } = useContext(IsAuthedContext)!;
   const { setUserInfo } = useContext(AuthInfoContext)!;
+  const { setAlert } = useContext(AlertContext)!;
 
   const inputChangeHandler = (event: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
@@ -54,14 +56,19 @@ export const Register = () => {
               email: userInfoRes.data.user.email,
             });
 
-            navigate('/');
+            navigate('/', {
+              state: { msg: 'ユーザー登録しました。', color: 'success' },
+            });
           };
 
           getUserInfo();
         }
       })
       .catch((error) => {
-        // console.error(error);
+        setAlert({
+          color: 'failure',
+          msg: `ユーザー登録できませんでした。[${error?.response?.data?.message}]`,
+        });
       });
   };
 

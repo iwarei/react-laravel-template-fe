@@ -1,3 +1,90 @@
+## 環境構築
+1. `git clone https://github.com/iwarei/react-laravel-template-fe.git`
+2. `npm start`
+
+## ほか、メモ
+認証関連の機能は作成済みなので、すぐに実機能の実装に取り掛かれます!
+
+### 新しいページの作成方法
+1. まず、新しいページ用のコンポーネントを`src\components\pages`配下に作成します。
+   各ページでレイアウトを共通化する場合は、`src\components\templates\PageTemplate.tsx`をカスタムしていきページ用のコンポーネントも`PageTemplate.tsx`のchildrenとすると便利です。
+
+2. 作成したページのコンポーネントを実際に表示できるようにしていきます。
+   `App.tsx`を編集していきます。
+   例えば、`/example`にアクセスされたときに表示するページを追加した場合、以下を`<Routes>`の子要素として追加していきます。
+  ``` typescript
+  import { Example } from './components/pages/Example';
+
+  // ...中略
+  <Routes>
+    <Route path="example" element={<Example />} />
+  </Routes>
+  ```
+  また、追加したページはログイン認証していないと表示しないようにしたい場合は下記のようにRouteAuthGuardの子要素とします。
+  ``` typescript
+  <Routes>
+    <Route
+      path="example"
+      element={
+        <RouteAuthGuard>
+          <Example />
+        </RouteAuthGuard>
+      }
+    />
+  </Routes>
+  ```
+  このとき、ログイン認証せずに`/example`にアクセスしようとすると、`/login`にリダイレクトされます。
+  もし、リダイレクト先をカスタマイズしたい場合は、`RouteAuthGuard`のPropsに`redirect`を指定してください。
+
+##### Tips 処理後、他のページにリダイレクトさせたい場合
+1. `useNavigate`をimportします。
+``` typescript
+import { useNavigate } from 'react-router-dom';
+```
+2. 関数コンポーネントのトップレベルでnavigateを定義します。
+``` typescript
+const navigate = useNavigate();
+```
+3. リダイレクトさせたい処理の後に、下記のようにしてリダイレクトさせたいページを設定します。
+``` typescript
+navigate('/');
+```
+※ `window.location.href = '/'`のように記述すると、ライフサイクルがおかしくなる場合があります。
+
+##### Tips アラートメッセージを表示させたい場合
+処理後に「処理に成功しました。」、エラー時に「エラーが発生しました。」など、ユーザに対してアラートメッセージを表示させたいこともあるでしょう。
+現在のページ上でアラートを表示させる場合とリダイレクト先のページでアラートメッセージを表示させる場合のそれぞれの場合の表示方を説明します。
+
+###### 現在のページ上でアラートメッセージを表示させる場合
+1. `AlertContext`をimportします。
+``` typescript
+import { AlertContext } from '../../context/AlertProvider';
+```
+2. コンポーネントのトップレベルで`setAlert`を取得、定義します。
+``` typescript
+const { setAlert } = useContext(AlertContext)!;
+```
+3. 処理後などに、`setAlert`で表示させたいメッセージとアラート色を設定します。
+``` typescript 
+setAlert({
+  color: 'failure',
+  msg: `処理中にエラーが発生しました。`,
+});
+```
+
+###### リダイレクト先のページでアラートメッセージを表示させる場合
+Tips 処理後、他のページにリダイレクトさせたい場合のように、先にリダイレクト先を設定しておいてください。
+1. `navigate`の第2引数にオブジェクトとしてメッセージとアラート色を設定します。 
+``` typescript
+navigate('/', { 
+  state: { msg: 'ログインしました。', color: 'info' } 
+});
+```
+
+
+
+
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).

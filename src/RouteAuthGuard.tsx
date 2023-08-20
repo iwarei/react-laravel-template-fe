@@ -4,7 +4,7 @@ import { IsAuthedContext } from './context/AuthProvider';
 
 type RouteAuthGuardProps = {
   children: ReactNode;
-  redirect: string;
+  redirect?: string;
 };
 
 export const RouteAuthGuard: React.FC<RouteAuthGuardProps> = ({

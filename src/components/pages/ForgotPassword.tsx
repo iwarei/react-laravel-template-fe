@@ -5,16 +5,15 @@ import { PrimaryButton } from '../atoms/Button';
 import { InputFormWithLabel } from '../molecules/InputFormWithLabel';
 import { PageTemplete } from '../templates/PageTemplate';
 import { IsAuthedContext, AuthInfoContext } from '../../context/AuthProvider';
+import { AlertContext } from '../../context/AlertProvider';
 
 export const ForgotPassword = () => {
-  const navigate = useNavigate();
   const initialReqData = {
     email: '',
   };
 
   const [reqData, setReqData] = useState(initialReqData);
-  const { isAuthed, setIsAuthed } = useContext(IsAuthedContext)!;
-  const { userInfo, setUserInfo } = useContext(AuthInfoContext)!;
+  const { setAlert } = useContext(AlertContext)!;
 
   const inputChangeHandler = (event: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
@@ -42,14 +41,22 @@ export const ForgotPassword = () => {
       )
       .then((response) => {
         if (response.status === 200) {
-          console.log('成功');
+          setAlert({
+            color: 'success',
+            msg: `登録されているメールアドレスに再設定用のメールを送信しました。`,
+          });
         } else {
-          console.log(response);
-          console.log('失敗');
+          setAlert({
+            color: 'failure',
+            msg: `エラーが発生しました。[${response?.data?.message}]`,
+          });
         }
       })
       .catch((error) => {
-        console.error(error);
+        setAlert({
+          color: 'failure',
+          msg: `エラーが発生しました。[${error?.response?.data?.message}]`,
+        });
       });
   };
 
