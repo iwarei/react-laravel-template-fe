@@ -1,3 +1,5 @@
+import React from 'react';
+
 type LabelProps = {
   text: string;
   className?: string[];
