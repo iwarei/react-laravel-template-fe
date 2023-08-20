@@ -1,4 +1,4 @@
-import React, { ReactNode, useContext } from 'react';
+import React, { ReactNode, useContext, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import { Navbar } from '../organism/Navbar';
 import { DismissableAlert } from '../atoms/Alert';
@@ -14,7 +14,11 @@ export const PageTemplete: React.FC<PageTemplateProps> = ({
   children,
 }) => {
   const location = useLocation();
-  const { alert } = useContext(AlertContext)!;
+  const { alert, setAlert } = useContext(AlertContext)!;
+
+  useEffect(() => {
+    setAlert(undefined);
+  }, [location.pathname]);
 
   return (
     <>

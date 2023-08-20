@@ -1,6 +1,7 @@
 ## 環境構築
 1. `git clone https://github.com/iwarei/react-laravel-template-fe.git`
-2. `npm start`
+2. `npm install`
+3. `npm start`
 
 ## ほか、メモ
 認証関連の機能は作成済みなので、すぐに実機能の実装に取り掛かれます!
@@ -10,7 +11,7 @@
    各ページでレイアウトを共通化する場合は、`src\components\templates\PageTemplate.tsx`をカスタムしていきページ用のコンポーネントも`PageTemplate.tsx`のchildrenとすると便利です。
 
 2. 作成したページのコンポーネントを実際に表示できるようにしていきます。
-   `App.tsx`を編集していきます。
+   `AppRouters.tsx`を編集していきます。
    例えば、`/example`にアクセスされたときに表示するページを追加した場合、以下を`<Routes>`の子要素として追加していきます。
   ``` typescript
   import { Example } from './components/pages/Example';
