@@ -6,6 +6,7 @@ import { Link } from '../atoms/Link';
 import { InputFormWithLabel } from '../molecules/InputFormWithLabel';
 import { PageTemplete } from '../templates/PageTemplate';
 import { IsAuthedContext, AuthInfoContext } from '../../context/AuthProvider';
+import { AlertContext } from '../../context/AlertProvider';
 
 export const Login = () => {
   const navigate = useNavigate();
@@ -16,6 +17,7 @@ export const Login = () => {
   const [reqData, setReqData] = useState(initialReqData);
   const { isAuthed, setIsAuthed } = useContext(IsAuthedContext)!;
   const { userInfo, setUserInfo } = useContext(AuthInfoContext)!;
+  const { alert, setAlert } = useContext(AlertContext)!;
 
   // フォーム入力値変化時のイベントハンドラ
   const inputChangeHandler = (event: ChangeEvent<HTMLInputElement>) => {
@@ -44,15 +46,19 @@ export const Login = () => {
               name: userInfoRes.data.user.name,
               email: userInfoRes.data.user.email,
             });
-            navigate('/');
+
+            navigate('/', { state: { msg: 'ログインしました。' } });
           };
 
           getUserInfo();
         }
       })
       .catch((error) => {
-        console.log(error);
-        console.log('login failed.');
+        console.log(error.response.data.message);
+        setAlert({
+          color: 'failure',
+          msg: `ログインできませんでした。[${error.response.data.message}]`,
+        });
       });
   };
 
@@ -66,6 +72,7 @@ export const Login = () => {
       <InputFormWithLabel
         labelText="パスワード"
         formName="password"
+        type="password"
         onChange={inputChangeHandler}
       />
       <div className="flex justify-center place-items-center relative">

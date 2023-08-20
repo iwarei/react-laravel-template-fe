@@ -3,6 +3,7 @@ import { InputForm } from '../atoms/Input';
 import { Label } from '../atoms/Label';
 
 type InputFormWithLabelProps = {
+  type?: string;
   value?: string;
   formClass?: string[];
   formId?: string;
@@ -16,6 +17,7 @@ type InputFormWithLabelProps = {
 };
 
 export const InputFormWithLabel = ({
+  type = 'text',
   value,
   formClass,
   formId,
@@ -36,6 +38,7 @@ export const InputFormWithLabel = ({
         id={labelId ?? ''}
       />
       <InputForm
+        type={type}
         className={formClass}
         id={formId ?? formName}
         name={formName}

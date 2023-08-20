@@ -10,29 +10,35 @@ import { ErrorPage } from './components/pages/ErrorPage';
 import { AuthProvider } from './context/AuthProvider';
 import { ForgotPassword } from './components/pages/ForgotPassword';
 import { ResetPassword } from './components/pages/ResetPassword';
+import { AlertProvider } from './context/AlertProvider';
 
 const App = () => {
   axios.defaults.withCredentials = true;
   return (
     <AuthProvider>
-      <BrowserRouter>
-        <Routes>
-          <Route
-            path=""
-            element={
-              <RouteAuthGuard redirect="/login">
-                <Home />
-              </RouteAuthGuard>
-            }
-          />
-          <Route path="register" element={<Register />} />
-          <Route path="login" element={<Login />} />
-          <Route path="forgot-password" element={<ForgotPassword />} />
-          <Route path="password-reset/*" element={<ResetPassword />} />
-          <Route path="dashboard" element={<ErrorPage message="dashboard" />} />
-          <Route path="*" element={<ErrorPage />} />
-        </Routes>
-      </BrowserRouter>
+      <AlertProvider>
+        <BrowserRouter>
+          <Routes>
+            <Route
+              path=""
+              element={
+                <RouteAuthGuard redirect="/login">
+                  <Home />
+                </RouteAuthGuard>
+              }
+            />
+            <Route path="register" element={<Register />} />
+            <Route path="login" element={<Login />} />
+            <Route path="forgot-password" element={<ForgotPassword />} />
+            <Route path="password-reset/*" element={<ResetPassword />} />
+            <Route
+              path="dashboard"
+              element={<ErrorPage message="dashboard" />}
+            />
+            <Route path="*" element={<ErrorPage />} />
+          </Routes>
+        </BrowserRouter>
+      </AlertProvider>
     </AuthProvider>
   );
 };

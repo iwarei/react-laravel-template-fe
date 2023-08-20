@@ -37,6 +37,7 @@ module.exports = {
     'import/prefer-default-export': 'off',
     'arrow-body-style': 'off',
     'import/no-extraneous-dependencies': ['error', { devDependencies: true }],
+    'react/jsx-no-useless-fragment': 'warn',
   },
   settings: {
     'import/resolver': {

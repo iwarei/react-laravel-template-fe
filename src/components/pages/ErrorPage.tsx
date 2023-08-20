@@ -1,4 +1,5 @@
 import React from 'react';
+import { PageTemplete } from '../templates/PageTemplate';
 
 type ErrorPageProps = {
   code?: number;
@@ -10,9 +11,8 @@ export const ErrorPage = ({
   message = 'お探しのページは見つかりませんでした',
 }: ErrorPageProps) => {
   return (
-    <div>
-      <h1>{`${code ?? ''} Error Page`}</h1>
+    <PageTemplete headerText={String(code)}>
       <p>{message}</p>
-    </div>
+    </PageTemplete>
   );
 };

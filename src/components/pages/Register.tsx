@@ -17,8 +17,8 @@ export const Register = () => {
   };
 
   const [reqData, setReqData] = useState(initialReqData);
-  const { isAuthed, setIsAuthed } = useContext(IsAuthedContext)!;
-  const { userInfo, setUserInfo } = useContext(AuthInfoContext)!;
+  const { setIsAuthed } = useContext(IsAuthedContext)!;
+  const { setUserInfo } = useContext(AuthInfoContext)!;
 
   const inputChangeHandler = (event: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
@@ -41,7 +41,6 @@ export const Register = () => {
         },
       })
       .then((response) => {
-        console.log(response);
         if (response.status === 204) {
           const getUserInfo = async () => {
             const userInfoRes = await axios.post(
@@ -62,7 +61,7 @@ export const Register = () => {
         }
       })
       .catch((error) => {
-        console.error(error);
+        // console.error(error);
       });
   };
 
@@ -81,11 +80,13 @@ export const Register = () => {
       <InputFormWithLabel
         labelText="パスワード"
         formName="password"
+        type="password"
         onChange={inputChangeHandler}
       />
       <InputFormWithLabel
         labelText="パスワード (確認用)"
         formName="password_confirmation"
+        type="password"
         onChange={inputChangeHandler}
       />
 
