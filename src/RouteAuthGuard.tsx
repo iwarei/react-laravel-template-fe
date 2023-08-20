@@ -20,5 +20,9 @@ export const RouteAuthGuard: React.FC<RouteAuthGuardProps> = ({
     }
   }, []);
 
+  if (!isAuthed) {
+    return null;
+  }
+
   return React.cloneElement(children as React.ReactElement);
 };

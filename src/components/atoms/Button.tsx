@@ -1,14 +1,14 @@
 import React from 'react';
 
 type PrimaryButtonProps = {
-  type: 'button' | 'submit' | 'reset';
+  type?: 'button' | 'submit' | 'reset';
   text: string;
   className?: string[];
   addClass?: string[];
   id: string;
   name?: string;
   disabled?: boolean;
-  onClickHandler?: () => void;
+  onClick?: () => void;
 };
 
 export const PrimaryButton = ({
@@ -37,7 +37,7 @@ export const PrimaryButton = ({
   id,
   name,
   disabled = false,
-  onClickHandler,
+  onClick,
 }: PrimaryButtonProps) => {
   const classNames = [...className, ...addClass].join(' ');
 
@@ -48,7 +48,7 @@ export const PrimaryButton = ({
       name={name ?? ''}
       id={id}
       disabled={disabled}
-      onClick={onClickHandler}
+      onClick={onClick}
     >
       {text}
     </button>

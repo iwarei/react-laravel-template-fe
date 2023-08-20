@@ -81,7 +81,7 @@ export const Login = () => {
           text="ログイン"
           id="login-button"
           addClass={['w-32']}
-          onClickHandler={loginEventHandler}
+          onClick={loginEventHandler}
         />
         <Link
           text="パスワードを忘れた場合"

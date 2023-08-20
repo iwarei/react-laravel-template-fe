@@ -105,7 +105,7 @@ export const ResetPassword = () => {
           text="リセット"
           id="reset-button"
           addClass={['w-32']}
-          onClickHandler={resetEventHandler}
+          onClick={resetEventHandler}
         />
       </div>
     </PageTemplete>

@@ -71,7 +71,7 @@ export const ForgotPassword = () => {
           text="確認用メールを送信"
           id="reset-button"
           addClass={['w-48']}
-          onClickHandler={resetEventHandler}
+          onClick={resetEventHandler}
         />
       </div>
     </PageTemplete>

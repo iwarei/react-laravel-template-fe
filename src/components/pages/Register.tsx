@@ -103,7 +103,7 @@ export const Register = () => {
           text="登録"
           id="register-button"
           addClass={['w-32']}
-          onClickHandler={registerEventHandler}
+          onClick={registerEventHandler}
         />
         <Link
           text="ログイン画面へ"

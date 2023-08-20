@@ -20,15 +20,15 @@ export const DismissableAlert: React.FC<AlertProps> = ({
     setDisplay(false);
   };
 
+  if (!display) {
+    return null;
+  }
+
   return (
-    <span>
-      {display && (
-        <Alert color={color} className={classNames} onDismiss={dismissHandler}>
-          <span>
-            <p>{message}</p>
-          </span>
-        </Alert>
-      )}
-    </span>
+    <Alert color={color} className={classNames} onDismiss={dismissHandler}>
+      <span>
+        <p>{message}</p>
+      </span>
+    </Alert>
   );
 };
