@@ -27,6 +27,10 @@ type LoginType = {
   redirect?: string;
 };
 
+type LogoutType = {
+  redirect?: string;
+};
+
 export type SendResetMailReqType = {
   email: string;
 };
@@ -53,16 +57,27 @@ export const useAuth = () => {
   const { setUserInfo } = useContext(AuthInfoContext)!;
   const { setAlert } = useContext(AlertContext)!;
 
+  const setErrorAlert = (msg: string) => {
+    setAlert({
+      color: 'failure',
+      msg,
+    });
+  };
+
+  const setSuccessAlert = (msg: string) => {
+    setAlert({
+      color: 'success',
+      msg,
+    });
+  };
+
   const getCsrf = async () => {
     await axios
       .get(`${process.env.REACT_APP_BACKEND_URL}/sanctum/csrf-cookie`)
       .catch((error) => {
-        setAlert({
-          color: 'failure',
-          msg: `ログインできませんでした。[${
-            error?.response?.data?.message ?? ''
-          }]`,
-        });
+        setErrorAlert(
+          `ログインできませんでした。[${error?.response?.data?.message ?? ''}]`
+        );
       });
   };
 
@@ -99,10 +114,9 @@ export const useAuth = () => {
         }
       })
       .catch((error) => {
-        setAlert({
-          color: 'failure',
-          msg: `ユーザー登録できませんでした。[${error?.response?.data?.message}]`,
-        });
+        setErrorAlert(
+          `ユーザー登録できませんでした。[${error?.response?.data?.message}]`
+        );
       });
   };
 
@@ -117,10 +131,27 @@ export const useAuth = () => {
         }
       })
       .catch((error) => {
-        setAlert({
-          color: 'failure',
-          msg: `ログインできませんでした。[${error?.response?.data?.message}]`,
-        });
+        setErrorAlert(
+          `ログインできませんでした。[${error?.response?.data?.message}]`
+        );
+      });
+  };
+
+  const logout = async ({ redirect = '/login' }: LogoutType) => {
+    const logoutProcess = () => {
+      // ログイン状態の変更と保持していたユーザ情報を空にする
+      setIsAuthed(false);
+      setUserInfo(undefined);
+      navigate(redirect);
+    };
+
+    await axios
+      .post(`${process.env.REACT_APP_BACKEND_URL}/api/logout`)
+      .then(() => {
+        logoutProcess();
+      })
+      .catch(() => {
+        logoutProcess();
       });
   };
 
@@ -140,22 +171,17 @@ export const useAuth = () => {
       )
       .then((response) => {
         if (response.status === 200) {
-          setAlert({
-            color: 'success',
-            msg: `登録されているメールアドレスに再設定用のメールを送信しました。`,
-          });
+          setSuccessAlert(
+            `登録されているメールアドレスに再設定用のメールを送信しました。`
+          );
         } else {
-          setAlert({
-            color: 'failure',
-            msg: `エラーが発生しました。[${response?.data?.message}]`,
-          });
+          setErrorAlert(`エラーが発生しました。[${response?.data?.message}]`);
         }
       })
       .catch((error) => {
-        setAlert({
-          color: 'failure',
-          msg: `エラーが発生しました。[${error?.response?.data?.message}]`,
-        });
+        setErrorAlert(
+          `エラーが発生しました。[${error?.response?.data?.message}]`
+        );
       });
   };
 
@@ -182,19 +208,15 @@ export const useAuth = () => {
             },
           });
         } else {
-          setAlert({
-            color: 'failure',
-            msg: `エラーが発生しました。[${response?.data?.message}]`,
-          });
+          setErrorAlert(`エラーが発生しました。[${response?.data?.message}]`);
         }
       })
       .catch((error) => {
-        setAlert({
-          color: 'failure',
-          msg: `エラーが発生しました。[${error?.response?.data?.message}]`,
-        });
+        setErrorAlert(
+          `エラーが発生しました。[${error?.response?.data?.message}]`
+        );
       });
   };
 
-  return { register, login, sendResetMail, resetPassword };
+  return { register, login, logout, sendResetMail, resetPassword };
 };
