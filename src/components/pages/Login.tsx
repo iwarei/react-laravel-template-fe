@@ -5,19 +5,15 @@ import { PrimaryButton } from '../atoms/Button';
 import { Link } from '../atoms/Link';
 import { InputFormWithLabel } from '../molecules/InputFormWithLabel';
 import { PageTemplete } from '../templates/PageTemplate';
-import { IsAuthedContext, AuthInfoContext } from '../../context/AuthProvider';
-import { AlertContext } from '../../context/AlertProvider';
+import { useAuth, LoginReqType } from '../../hooks/useAuth';
 
 export const Login = () => {
-  const navigate = useNavigate();
-  const initialReqData = {
+  const initialReqData: LoginReqType = {
     email: '',
     password: '',
   };
-  const [reqData, setReqData] = useState(initialReqData);
-  const { setIsAuthed } = useContext(IsAuthedContext)!;
-  const { setUserInfo } = useContext(AuthInfoContext)!;
-  const { setAlert } = useContext(AlertContext)!;
+  const [reqData, setReqData] = useState<LoginReqType>(initialReqData);
+  const { login } = useAuth();
 
   // フォーム入力値変化時のイベントハンドラ
   const inputChangeHandler = (event: ChangeEvent<HTMLInputElement>) => {
@@ -28,38 +24,9 @@ export const Login = () => {
     }));
   };
 
+  // ログインボタン押下時のイベントハンドラ
   const loginEventHandler = async () => {
-    await axios.get(`${process.env.REACT_APP_BACKEND_URL}/sanctum/csrf-cookie`);
-
-    await axios
-      .post(`${process.env.REACT_APP_BACKEND_URL}/api/login`, reqData)
-      .then((response) => {
-        if (response.status === 204) {
-          const getUserInfo = async () => {
-            const userInfoRes = await axios.post(
-              `${process.env.REACT_APP_BACKEND_URL}/api/user`
-            );
-
-            setIsAuthed(true);
-            setUserInfo({
-              id: userInfoRes.data.user.id,
-              name: userInfoRes.data.user.name,
-              email: userInfoRes.data.user.email,
-            });
-            navigate('/', {
-              state: { msg: 'ログインしました。', color: 'success' },
-            });
-          };
-
-          getUserInfo();
-        }
-      })
-      .catch((error) => {
-        setAlert({
-          color: 'failure',
-          msg: `ログインできませんでした。[${error?.response?.data?.message}]`,
-        });
-      });
+    await login({ reqData });
   };
 
   return (
