@@ -1,9 +1,7 @@
-import React, { useState, ChangeEvent, useContext } from 'react';
-import axios from 'axios';
+import React, { useState, ChangeEvent } from 'react';
 import { PrimaryButton } from '../atoms/Button';
 import { InputFormWithLabel } from '../molecules/InputFormWithLabel';
 import { PageTemplete } from '../templates/PageTemplate';
-import { AlertContext } from '../../context/AlertProvider';
 import { useAuth, SendResetMailReqType } from '../../hooks/useAuth';
 
 export const ForgotPassword = () => {
@@ -12,7 +10,6 @@ export const ForgotPassword = () => {
   };
 
   const [reqData, setReqData] = useState<SendResetMailReqType>(initialReqData);
-  const { setAlert } = useContext(AlertContext)!;
   const { sendResetMail } = useAuth();
 
   const inputChangeHandler = (event: ChangeEvent<HTMLInputElement>) => {
