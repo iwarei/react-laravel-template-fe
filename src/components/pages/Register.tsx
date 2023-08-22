@@ -1,23 +1,17 @@
-import React, { useState, ChangeEvent, useContext } from 'react';
-import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+import React, { useState, ChangeEvent } from 'react';
 import { Link } from '../atoms/Link';
 import { PrimaryButton } from '../atoms/Button';
 import { InputFormWithLabel } from '../molecules/InputFormWithLabel';
 import { PageTemplete } from '../templates/PageTemplate';
-import { IsAuthedContext, AuthInfoContext } from '../../context/AuthProvider';
-import { AlertContext } from '../../context/AlertProvider';
 import { RegisterReqType, useAuth } from '../../hooks/useAuth';
 
 export const Register = () => {
-  const navigate = useNavigate();
   const initialReqData: RegisterReqType = {
     name: '',
     email: '',
     password: '',
     password_confirmation: '',
   };
-
   const [reqData, setReqData] = useState<RegisterReqType>(initialReqData);
 
   const inputChangeHandler = (event: ChangeEvent<HTMLInputElement>) => {

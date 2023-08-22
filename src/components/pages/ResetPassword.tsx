@@ -1,21 +1,17 @@
-import React, { useState, ChangeEvent, useEffect, useContext } from 'react';
-import axios from 'axios';
-import { useNavigate, useLocation } from 'react-router-dom';
+import React, { useState, ChangeEvent, useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 import { PrimaryButton } from '../atoms/Button';
 import { InputFormWithLabel } from '../molecules/InputFormWithLabel';
 import { PageTemplete } from '../templates/PageTemplate';
-import { AlertContext } from '../../context/AlertProvider';
 import { ResetPasswordReqType, useAuth } from '../../hooks/useAuth';
 
 export const ResetPassword = () => {
-  const navigate = useNavigate();
   const initialReqData: ResetPasswordReqType = {
     email: '',
     password: '',
     password_confirmation: '',
     token: '',
   };
-
   const [reqData, setReqData] = useState<ResetPasswordReqType>(initialReqData);
   const { resetPassword } = useAuth();
 
