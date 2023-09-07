@@ -81,6 +81,23 @@ export const useAuth = () => {
       });
   };
 
+  const autoLogin = async ({ redirect = '/' }) => {
+    await axios
+      .get(`${process.env.REACT_APP_BACKEND_URL}/api/user`)
+      .then((response) => {
+        if (response.status === 200) {
+          setIsAuthed(true);
+          setUserInfo({
+            id: response.data.id,
+            name: response.data.name,
+            email: response.data.email,
+          });
+
+          navigate(redirect);
+        }
+      });
+  };
+
   const getUserInfo = async (redirect: string, msg: string) => {
     const userInfoRes = await axios.post(
       `${process.env.REACT_APP_BACKEND_URL}/api/user`
@@ -218,5 +235,5 @@ export const useAuth = () => {
       });
   };
 
-  return { register, login, logout, sendResetMail, resetPassword };
+  return { autoLogin, register, login, logout, sendResetMail, resetPassword };
 };

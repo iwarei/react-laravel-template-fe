@@ -2,7 +2,11 @@ import React, { useContext } from 'react';
 import { IsAuthedContext } from '../../context/AuthProvider';
 import { useAuth } from '../../hooks/useAuth';
 
-export const Navbar = () => {
+type NavbarProps = {
+  showButton?: boolean;
+};
+
+export const Navbar = ({ showButton = true }: NavbarProps) => {
   const { isAuthed } = useContext(IsAuthedContext)!;
   const { logout } = useAuth();
 
@@ -47,33 +51,38 @@ export const Navbar = () => {
             />
           </svg>
         </button>
-        <div className="hidden w-full md:block md:w-auto" id="navbar-solid-bg">
-          <ul className="flex flex-col font-medium mt-4 rounded-lg bg-gray-50 md:flex-row md:space-x-8 md:mt-0 md:border-0 md:bg-transparent dark:bg-gray-800 md:dark:bg-transparent dark:border-gray-700">
-            {/* ログイン画面リンク */}
-            {!isAuthed && (
-              <li>
-                <a
-                  href="/login"
-                  className="block py-2 pl-3 pr-4 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent"
-                >
-                  ログイン
-                </a>
-              </li>
-            )}
-            {/* ログアウトボタン */}
-            {isAuthed && (
-              <li>
-                <button
-                  type="button"
-                  onClick={logoutHandler}
-                  className="block py-2 pl-3 pr-4 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent"
-                >
-                  ログアウト
-                </button>
-              </li>
-            )}
-          </ul>
-        </div>
+        {showButton && (
+          <div
+            className="hidden w-full md:block md:w-auto"
+            id="navbar-solid-bg"
+          >
+            <ul className="flex flex-col font-medium mt-4 rounded-lg bg-gray-50 md:flex-row md:space-x-8 md:mt-0 md:border-0 md:bg-transparent dark:bg-gray-800 md:dark:bg-transparent dark:border-gray-700">
+              {/* ログイン画面リンク */}
+              {!isAuthed && (
+                <li>
+                  <a
+                    href="/login"
+                    className="block py-2 pl-3 pr-4 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent"
+                  >
+                    ログイン
+                  </a>
+                </li>
+              )}
+              {/* ログアウトボタン */}
+              {isAuthed && (
+                <li>
+                  <button
+                    type="button"
+                    onClick={logoutHandler}
+                    className="block py-2 pl-3 pr-4 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent"
+                  >
+                    ログアウト
+                  </button>
+                </li>
+              )}
+            </ul>
+          </div>
+        )}
       </div>
     </nav>
   );
