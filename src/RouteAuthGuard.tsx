@@ -7,10 +7,10 @@ type RouteAuthGuardProps = {
   redirect?: string;
 };
 
-export const RouteAuthGuard: React.FC<RouteAuthGuardProps> = ({
+export const RouteAuthGuard = ({
   children,
   redirect = '/login',
-}) => {
+}: RouteAuthGuardProps) => {
   const navigate = useNavigate();
   const { isAuthed } = useContext(IsAuthedContext)!;
 

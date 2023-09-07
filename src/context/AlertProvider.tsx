@@ -18,7 +18,7 @@ type AlertProviderProps = {
   children: ReactNode;
 };
 
-export const AlertProvider: React.FC<AlertProviderProps> = ({ children }) => {
+export const AlertProvider = ({ children }: AlertProviderProps) => {
   const [alert, setAlert] = useState<AlertType | undefined>(undefined);
 
   const clearAlert = () => {
