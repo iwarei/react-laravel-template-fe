@@ -95,24 +95,32 @@ export const useAuth = () => {
 
           navigate(redirect);
         }
+      })
+      .catch((error) => {
+        // 特に何もしない ログイン後の401を想定
       });
   };
 
   const getUserInfo = async (redirect: string, msg: string) => {
-    const userInfoRes = await axios.post(
-      `${process.env.REACT_APP_BACKEND_URL}/api/user`
-    );
+    await axios
+      .get(`${process.env.REACT_APP_BACKEND_URL}/api/user`)
+      .then((response) => {
+        setIsAuthed(true);
+        setUserInfo({
+          id: response.data.id,
+          name: response.data.name,
+          email: response.data.email,
+        });
 
-    setIsAuthed(true);
-    setUserInfo({
-      id: userInfoRes.data.user.id,
-      name: userInfoRes.data.user.name,
-      email: userInfoRes.data.user.email,
-    });
-
-    navigate(redirect, {
-      state: { msg, color: 'success' },
-    });
+        navigate(redirect, {
+          state: { msg, color: 'success' },
+        });
+      })
+      .catch((error) => {
+        setErrorAlert(
+          `エラーが発生しました。[${error?.response?.data?.message ?? ''}]`
+        );
+      });
   };
 
   const register = async ({ reqData, redirect = '/' }: RegisterType) => {
