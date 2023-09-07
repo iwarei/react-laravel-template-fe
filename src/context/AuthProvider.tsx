@@ -28,7 +28,7 @@ type AuthProviderProps = {
   children: ReactNode;
 };
 
-export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
+export const AuthProvider = ({ children }: AuthProviderProps) => {
   const [isAuthed, setIsAuthed] = useState<boolean>(false);
   const [userInfo, setUserInfo] = useState<UserInfo | undefined>(undefined);
 
