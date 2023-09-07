@@ -7,11 +7,11 @@ type AlertProps = {
   addClass?: string[];
 };
 
-export const DismissableAlert: React.FC<AlertProps> = ({
+export const DismissableAlert = ({
   message,
   color = 'success',
   addClass = [],
-}) => {
+}: AlertProps) => {
   const classNames = [...addClass].join(' ');
 
   const [display, setDisplay] = useState<boolean>(true);
