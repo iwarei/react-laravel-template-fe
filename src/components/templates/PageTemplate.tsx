@@ -14,7 +14,7 @@ type PageTemplateProps = {
   loading?: boolean;
 };
 
-export const PageTemplete = ({
+export const PageTemplate = ({
   headerText,
   children,
   enableAutoLogin = true,

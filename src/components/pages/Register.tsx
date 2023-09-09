@@ -2,7 +2,7 @@ import React, { useState, ChangeEvent } from 'react';
 import { Link } from '../atoms/Link';
 import { PrimaryButton } from '../atoms/Button';
 import { InputFormWithLabel } from '../molecules/InputFormWithLabel';
-import { PageTemplete } from '../templates/PageTemplate';
+import { PageTemplate } from '../templates/PageTemplate';
 import { RegisterReqType, useAuth } from '../../hooks/useAuth';
 
 export const Register = () => {
@@ -28,7 +28,7 @@ export const Register = () => {
   };
 
   return (
-    <PageTemplete headerText="ユーザー登録">
+    <PageTemplate headerText="ユーザー登録">
       <InputFormWithLabel
         labelText="名前"
         formName="name"
@@ -66,6 +66,6 @@ export const Register = () => {
           addClass={['absolute', '-right-0']}
         />
       </div>
-    </PageTemplete>
+    </PageTemplate>
   );
 };
