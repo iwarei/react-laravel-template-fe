@@ -1,10 +1,10 @@
 import React from 'react';
-import { PageTemplete } from '../templates/PageTemplate';
+import { PageTemplate } from '../templates/PageTemplate';
 
 export const Home = () => {
   return (
-    <PageTemplete headerText="Home">
+    <PageTemplate headerText="Home">
       <p>テスト</p>
-    </PageTemplete>
+    </PageTemplate>
   );
 };

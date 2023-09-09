@@ -1,5 +1,5 @@
 import React from 'react';
-import { PageTemplete } from '../templates/PageTemplate';
+import { PageTemplate } from '../templates/PageTemplate';
 
 type ErrorPageProps = {
   code?: number;
@@ -11,8 +11,8 @@ export const ErrorPage = ({
   message = 'お探しのページは見つかりませんでした',
 }: ErrorPageProps) => {
   return (
-    <PageTemplete headerText={String(code)}>
+    <PageTemplate headerText={String(code)}>
       <p>{message}</p>
-    </PageTemplete>
+    </PageTemplate>
   );
 };

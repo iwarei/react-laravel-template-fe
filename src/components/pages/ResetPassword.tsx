@@ -2,7 +2,7 @@ import React, { useState, ChangeEvent, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import { PrimaryButton } from '../atoms/Button';
 import { InputFormWithLabel } from '../molecules/InputFormWithLabel';
-import { PageTemplete } from '../templates/PageTemplate';
+import { PageTemplate } from '../templates/PageTemplate';
 import { ResetPasswordReqType, useAuth } from '../../hooks/useAuth';
 
 export const ResetPassword = () => {
@@ -40,7 +40,7 @@ export const ResetPassword = () => {
   };
 
   return (
-    <PageTemplete headerText="パスワードリセット">
+    <PageTemplate headerText="パスワードリセット">
       <InputFormWithLabel
         labelText="メールアドレス"
         formName="email"
@@ -70,6 +70,6 @@ export const ResetPassword = () => {
           onClick={resetEventHandler}
         />
       </div>
-    </PageTemplete>
+    </PageTemplate>
   );
 };

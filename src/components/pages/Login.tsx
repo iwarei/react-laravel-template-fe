@@ -2,7 +2,7 @@ import React, { useState, ChangeEvent } from 'react';
 import { PrimaryButton } from '../atoms/Button';
 import { Link } from '../atoms/Link';
 import { InputFormWithLabel } from '../molecules/InputFormWithLabel';
-import { PageTemplete } from '../templates/PageTemplate';
+import { PageTemplate } from '../templates/PageTemplate';
 import { useAuth, LoginReqType } from '../../hooks/useAuth';
 
 export const Login = () => {
@@ -28,7 +28,7 @@ export const Login = () => {
   };
 
   return (
-    <PageTemplete headerText="ログイン">
+    <PageTemplate headerText="ログイン">
       <InputFormWithLabel
         labelText="メールアドレス"
         formName="email"
@@ -54,6 +54,6 @@ export const Login = () => {
           addClass={['absolute', '-right-0', 'sm:text-xs', 'md:text-base']}
         />
       </div>
-    </PageTemplete>
+    </PageTemplate>
   );
 };
