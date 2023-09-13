@@ -96,7 +96,7 @@ export const useAuth = () => {
           navigate(redirect);
         }
       })
-      .catch((error) => {
+      .catch(() => {
         // 特に何もしない ログイン後の401を想定
       });
   };

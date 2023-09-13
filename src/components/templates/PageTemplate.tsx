@@ -1,6 +1,6 @@
 import React, { ReactNode, useContext, useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
-import { Navbar } from '../organism/Navbar';
+import { Navbar } from '../organisms/Navbar';
 import { DismissableAlert } from '../atoms/Alert';
 import { AlertContext } from '../../context/AlertProvider';
 import { Spinner } from '../atoms/Spinner';
