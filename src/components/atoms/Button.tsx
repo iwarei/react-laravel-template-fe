@@ -1,6 +1,6 @@
 import React, { ReactNode } from 'react';
 
-type PrimaryButtonProps = {
+type ButtonProps = {
   type?: 'button' | 'submit' | 'reset';
   text: string;
   className?: string[];
@@ -38,7 +38,7 @@ export const PrimaryButton = ({
   name,
   disabled = false,
   onClick,
-}: PrimaryButtonProps) => {
+}: ButtonProps) => {
   const classNames = [...className, ...addClass].join(' ');
 
   return (
@@ -53,17 +53,6 @@ export const PrimaryButton = ({
       {text}
     </button>
   );
-};
-
-type CommonButtonProps = {
-  type?: 'button' | 'submit' | 'reset';
-  text: string;
-  className?: string[];
-  addClass?: string[];
-  id?: string;
-  name?: string;
-  disabled?: boolean;
-  onClick?: () => void;
 };
 
 export const CommonButton = ({
@@ -87,13 +76,12 @@ export const CommonButton = ({
     'focus:ring-4',
     'focus:ring-gray-200',
   ],
-
   addClass = [],
   id = '',
   name,
   disabled = false,
   onClick,
-}: CommonButtonProps) => {
+}: ButtonProps) => {
   const classNames = [...className, ...addClass].join(' ');
   return (
     <button
@@ -109,6 +97,50 @@ export const CommonButton = ({
   );
 };
 
+export const DangerButton = ({
+  type = 'button',
+  text,
+  className = [
+    'text-white',
+    'bg-red-700',
+    'hover:bg-red-800',
+    'focus:outline-none',
+    'focus:ring-4',
+    'focus:ring-red-300',
+    'font-medium',
+    'rounded-full',
+    'text-sm',
+    'px-5',
+    'py-2.5',
+    'text-center',
+    'mr-2',
+    'mb-2',
+    'dark:bg-red-600',
+    'dark:hover:bg-red-700',
+    'dark:focus:ring-red-900',
+  ],
+  addClass = [],
+  id = '',
+  name,
+  disabled = false,
+  onClick,
+}: ButtonProps) => {
+  const classNames = [...className, ...addClass].join(' ');
+  return (
+    <button
+      type={type}
+      className={classNames}
+      name={name ?? ''}
+      id={id}
+      disabled={disabled}
+      onClick={onClick}
+    >
+      {text}
+    </button>
+  );
+};
+
+// ButtonProps + children
 type RoundButtonProps = {
   type?: 'button' | 'submit' | 'reset';
   text?: string;
