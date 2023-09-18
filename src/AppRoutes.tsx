@@ -9,6 +9,7 @@ import { Register } from './components/pages/Register';
 import { ErrorPage } from './components/pages/ErrorPage';
 import { ForgotPassword } from './components/pages/ForgotPassword';
 import { ResetPassword } from './components/pages/ResetPassword';
+import { Account } from './components/pages/Account';
 
 const AppRoutes = () => {
   axios.defaults.withCredentials = true;
@@ -28,7 +29,7 @@ const AppRoutes = () => {
         <Route path="login" element={<Login />} />
         <Route path="forgot-password" element={<ForgotPassword />} />
         <Route path="password-reset/*" element={<ResetPassword />} />
-        <Route path="dashboard" element={<ErrorPage message="dashboard" />} />
+        <Route path="account" element={<Account />} />
         <Route path="*" element={<ErrorPage />} />
       </Routes>
     </BrowserRouter>
