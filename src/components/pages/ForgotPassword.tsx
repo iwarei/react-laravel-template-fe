@@ -25,7 +25,7 @@ export const ForgotPassword = () => {
   };
 
   return (
-    <PageTemplate headerText="パスワードリセット">
+    <PageTemplate headerText="パスワードリセット" showNavbarButton={false}>
       <InputFormWithLabel
         labelText="メールアドレス"
         formName="email"

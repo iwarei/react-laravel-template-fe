@@ -28,7 +28,7 @@ export const Register = () => {
   };
 
   return (
-    <PageTemplate headerText="ユーザー登録">
+    <PageTemplate headerText="ユーザー登録" showNavbarButton={false}>
       <InputFormWithLabel
         labelText="名前"
         formName="name"

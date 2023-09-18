@@ -28,7 +28,7 @@ export const Login = () => {
   };
 
   return (
-    <PageTemplate headerText="ログイン">
+    <PageTemplate headerText="ログイン" showNavbarButton={false}>
       <InputFormWithLabel
         labelText="メールアドレス"
         formName="email"
