@@ -2,6 +2,7 @@ import React, { ReactNode, useContext, useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { Navbar } from '../organisms/Navbar';
 import { DismissableAlert } from '../atoms/Alert';
+import { Heading } from '../atoms/Heading';
 import { AlertContext } from '../../context/AlertProvider';
 import { Spinner } from '../atoms/Spinner';
 import { IsAuthedContext } from '../../context/AuthProvider';
@@ -79,11 +80,7 @@ export const PageTemplate = ({
           />
         )}
         {/* ヘッダ用テキスト */}
-        {headerText && (
-          <div className="mb-6">
-            <h3 className="text-3xl font-bold dark:text-white">{headerText}</h3>
-          </div>
-        )}
+        {headerText && <Heading.H3 text={headerText} />}
         {/* 画面要素 */}
         {children}
         {/* ロード中 画面を暗くしスピナーを表示する */}
