@@ -10,6 +10,7 @@ import { useAuth } from '../../hooks/useAuth';
 type PageTemplateProps = {
   headerText?: string;
   children: ReactNode;
+  showNavbarButton?: boolean;
   enableAutoLogin?: boolean;
   loading?: boolean;
 };
@@ -17,6 +18,7 @@ type PageTemplateProps = {
 export const PageTemplate = ({
   headerText,
   children,
+  showNavbarButton = true,
   enableAutoLogin = true,
   loading = false,
 }: PageTemplateProps) => {
@@ -62,7 +64,7 @@ export const PageTemplate = ({
 
   return (
     <>
-      <Navbar />
+      <Navbar showButton={showNavbarButton} />
       <main className="max-w-5xl mx-auto py-4 px-6">
         {/* アラートメッセージを表示 */}
         {(alert?.msg || location.state?.msg) && (
