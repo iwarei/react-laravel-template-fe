@@ -8,6 +8,64 @@ type NavbarProps = {
   showButton?: boolean;
 };
 
+type NavbarLinkProps = {
+  link?: string;
+  text: string;
+  onClick?: () => void;
+};
+
+const PageTitleAndLogo = () => {
+  return (
+    <>
+      <img
+        src="https://flowbite.com/docs/images/logo.svg"
+        className="h-8 mr-3"
+        alt="Flowbite Logo"
+      />
+      <span className="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">
+        Flowbite
+      </span>
+    </>
+  );
+};
+
+const NavbarLink = ({ link, text, onClick }: NavbarLinkProps) => {
+  const navigate = useNavigate();
+  const { isAuthed } = useContext(IsAuthedContext)!;
+
+  return (
+    <>
+      {!isAuthed ? (
+        <li>
+          <a
+            href={link}
+            className="block py-2 pl-3 pr-4 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent"
+          >
+            {text}
+          </a>
+        </li>
+      ) : (
+        <li>
+          <button
+            type="button"
+            className="block py-2 pl-3 pr-4 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent"
+            onClick={() => {
+              if (onClick) {
+                onClick();
+              }
+              if (link) {
+                navigate(link);
+              }
+            }}
+          >
+            {text}
+          </button>
+        </li>
+      )}
+    </>
+  );
+};
+
 export const Navbar = ({ showButton = true }: NavbarProps) => {
   const navigate = useNavigate();
 
@@ -58,14 +116,7 @@ export const Navbar = ({ showButton = true }: NavbarProps) => {
         {!isAuthed ? (
           // 未認証時はaタグでリンクを貼る
           <a href="/" className="flex items-center">
-            <img
-              src="https://flowbite.com/docs/images/logo.svg"
-              className="h-8 mr-3"
-              alt="Flowbite Logo"
-            />
-            <span className="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">
-              Flowbite
-            </span>
+            <PageTitleAndLogo />
           </a>
         ) : (
           // 認証時はnavigateでリンクさせる
@@ -74,14 +125,7 @@ export const Navbar = ({ showButton = true }: NavbarProps) => {
             className="flex items-center"
             onClick={titleButtonHandler}
           >
-            <img
-              src="https://flowbite.com/docs/images/logo.svg"
-              className="h-8 mr-3"
-              alt="Flowbite Logo"
-            />
-            <span className="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">
-              Flowbite
-            </span>
+            <PageTitleAndLogo />
           </button>
         )}
         {/* ナビバーの右サイドのボタン・リンク */}
@@ -125,37 +169,17 @@ export const Navbar = ({ showButton = true }: NavbarProps) => {
                 {/* 認証状況によりボタン・リンクを出し分けする */}
                 {!isAuthed ? (
                   //  未認証時のボタン・リンク
-                  <li>
-                    <a
-                      href="/login"
-                      className="block py-2 pl-3 pr-4 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent"
-                    >
-                      ログイン
-                    </a>
-                  </li>
+                  <NavbarLink link="/login" text="ログイン" />
                 ) : (
                   // 認証時のボタン・リンク
                   <>
                     {/* アカウント情報編集リンク */}
-                    <li>
-                      <button
-                        type="button"
-                        onClick={accountButtonHandler}
-                        className="block py-2 pl-3 pr-4 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent"
-                      >
-                        アカウント
-                      </button>
-                    </li>
+                    <NavbarLink text="アカウント" link="/account" />
                     {/* ログアウトボタン */}
-                    <li>
-                      <button
-                        type="button"
-                        onClick={logoutButtonHandler}
-                        className="block py-2 pl-3 pr-4 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent"
-                      >
-                        ログアウト
-                      </button>
-                    </li>
+                    <NavbarLink
+                      text="ログアウト"
+                      onClick={logoutButtonHandler}
+                    />
                   </>
                 )}
               </ul>
