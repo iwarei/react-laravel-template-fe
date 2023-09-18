@@ -31,7 +31,7 @@ export const Navbar = ({ showButton = true }: NavbarProps) => {
 
   // 画面幅が768px以上になった際、ナビバーを閉じる
   useEffect(() => {
-    if (isNavbarOpen && width && width > 768) {
+    if (isNavbarOpen && width && width >= 768) {
       setIsNavbarOpen(false);
     }
   }, [width]);
