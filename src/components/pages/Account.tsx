@@ -14,7 +14,7 @@ import { useAuth } from '../../hooks/useAuth';
 export const Account = () => {
   const { setAlert, clearAlert } = useContext(AlertContext)!;
   const { userInfo } = useContext(AuthInfoContext)!;
-  const { getUserInfo } = useAuth();
+  const { getUserInfo, logout } = useAuth();
 
   // アカウント削除確認用モーダルの表示状態
   const [showAccountDeleteModal, setShowAccountDeleteModal] = useState(false);
@@ -38,13 +38,23 @@ export const Account = () => {
     password: string | undefined;
     password_confirmation: string | undefined;
   };
-  const initialPasswordChange: PasswordChangeReqType = {
+  const initialPasswordChangeReq: PasswordChangeReqType = {
     current_password: undefined,
     password: undefined,
     password_confirmation: undefined,
   };
   const [passwordChangeReq, setPasswordChangeReq] =
-    useState<PasswordChangeReqType>(initialPasswordChange);
+    useState<PasswordChangeReqType>(initialPasswordChangeReq);
+
+  // アカウント削除時のリクエストパラメータの準備、初期化
+  type AccountDeleteReqType = {
+    password: string | undefined;
+  };
+  const initialAccountDeleteReq: AccountDeleteReqType = {
+    password: undefined,
+  };
+  const [accountDeleteReq, setAccountDeleteReq] =
+    useState<AccountDeleteReqType>(initialAccountDeleteReq);
 
   const setErrorAlert = (msg: string) => {
     setAlert({
@@ -77,6 +87,17 @@ export const Account = () => {
   ) => {
     const { name, value } = event.target;
     setPasswordChangeReq((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
+  };
+
+  // アカウント削除モーダルの入力フォーム内容変更時のイベントハンドラ
+  const accountDeleteFormHandler = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    const { name, value } = event.target;
+    setAccountDeleteReq((prevData) => ({
       ...prevData,
       [name]: value,
     }));
@@ -168,9 +189,48 @@ export const Account = () => {
       });
   };
 
-  // アカウント削除ボタン押下時のイベントハンドラ (モーダルを開く)
-  const openDeleteAccountModalHandler = () => {
-    console.log('test');
+  // アカウント削除確認モーダルのアカウント削除ボタン押下時のイベントハンドラ
+  const accountDeleteHandler = async () => {
+    // 入力内容検証
+    const validation = () => {
+      clearAlert();
+      if (!accountDeleteReq.password) {
+        // パスワードが入力されていない場合
+        setErrorAlert('パスワードを入力してください。');
+        return false;
+      }
+      return true;
+    };
+
+    // 入力検証がNGだった場合、処理中断
+    if (!validation()) {
+      return;
+    }
+
+    // ユーザIDがundefinedの場合削除できないので処理中断
+    if (userInfo?.id === undefined) {
+      setErrorAlert('予期せぬエラーが発生しました。');
+      return;
+    }
+
+    // アカウント削除APIを叩く
+    await axios
+      .delete(`${process.env.REACT_APP_BACKEND_URL}/api/user/${userInfo.id}`, {
+        data: accountDeleteReq,
+      })
+      .then(async (response) => {
+        if (response.status === 200) {
+          // アカウント削除成功時ログアウトする
+          logout({});
+        } else {
+          setErrorAlert(`エラーが発生しました。[${response?.data?.message}]`);
+        }
+      })
+      .catch((error) => {
+        setErrorAlert(
+          `エラーが発生しました。[${error?.response?.data?.message}]`
+        );
+      });
   };
 
   // アカウント削除確認モーダルのボディ部分
@@ -181,13 +241,15 @@ export const Account = () => {
         アカウントを削除すると、全てのデータとファイルも完全に削除されます。
         <br />
         本当に削除する場合は、確認のためにパスワードを入力し削除ボタンを押してください。
+        <br />
+        ※削除に成功した場合は、自動的にログアウトします。
       </Text>
       <InputFormWithLabel
         labelText="パスワード"
         type="password"
         formName="password"
         formId="account-delete-password"
-        onChange={accountInfoFormHandler}
+        onChange={accountDeleteFormHandler}
       />
     </>
   );
@@ -195,8 +257,12 @@ export const Account = () => {
   // アカウント削除確認モーダルのフッター部分
   const accountDeleteModalFooter: JSX.Element = (
     <div className="w-full flex justify-end">
-      <CommonButton text="キャンセル" />
-      <DangerButton text="アカウントを削除" />
+      <CommonButton
+        text="キャンセル"
+        // 押下時アカウント削除確認モーダル非表示
+        onClick={() => setShowAccountDeleteModal(false)}
+      />
+      <DangerButton text="アカウントを削除" onClick={accountDeleteHandler} />
     </div>
   );
 
@@ -273,7 +339,8 @@ export const Account = () => {
             type="button"
             text="アカウントの削除"
             addClass={['w-64']}
-            onClick={openDeleteAccountModalHandler}
+            // 押下時アカウント削除確認モーダル表示
+            onClick={() => setShowAccountDeleteModal(true)}
           />
         </div>
       </Block>
