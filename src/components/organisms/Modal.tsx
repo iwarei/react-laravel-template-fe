@@ -3,8 +3,9 @@ import { Modal as FlowbiteModal } from 'flowbite-react';
 
 type ModalProps = {
   name?: string; // モーダル名 指定なしの場合'modal'となる
-  openModal?: string | undefined; // モーダル表示状態のuseState
+  openModal?: (string | undefined) | boolean; // モーダル表示状態のuseState
   setOpenModal?: React.Dispatch<React.SetStateAction<string | undefined>>; // モーダル表示状態のuseState
+  setOpenModalBoolean?: React.Dispatch<React.SetStateAction<boolean>>; // モーダル表示状態のuseState
   children: React.ReactNode; // モーダルのボディの表示内容
   header?: React.ReactNode | string | boolean; // モーダルのヘッダの表示内容
   headerClassName?: string;
@@ -12,14 +13,15 @@ type ModalProps = {
   footerClassName?: string;
   size?: // モーダルの表示サイズ
   'sm' | 'md' | 'lg' | 'xl' | '2xl' | '3xl' | '4xl' | '5xl' | '6xl' | '7xl';
-  staticModal?: boolean; // モーダル外を押下された場合、モーダルを閉じるか否か。
-  always?: boolean; // 常に表示状態にする (モーダル外でモーダル表示制御を行いたい場合に使用) ヘッダの閉じる(×)は動作しなくなるので注意
+  staticModal?: boolean; // モーダル外を押下された場合、モーダルを閉じるか否か。デフォルトはfalse。
+  show?: boolean; // trueの間、常に表示状態にする (モーダル外でモーダル表示制御を行いたい場合に使用)。ヘッダの閉じる(×)は動作しなくなるので注意。主に開発時用、または完全に画面上で制御する場合に使用。
 };
 
 export const Modal = ({
   name = 'modal',
   openModal,
   setOpenModal,
+  setOpenModalBoolean,
   children,
   header,
   headerClassName = '',
@@ -27,14 +29,20 @@ export const Modal = ({
   footerClassName = '',
   size = '2xl',
   staticModal = false,
-  always = true,
+  show = false,
 }: ModalProps) => {
   return (
     <FlowbiteModal
-      show={always ? openModal === name : true}
+      show={show || openModal === name || openModal === true}
       size={size}
       dismissible={!staticModal}
-      onClose={always ? () => setOpenModal?.(undefined) : undefined}
+      onClose={() => {
+        if (setOpenModal) {
+          setOpenModal(undefined);
+        } else if (setOpenModalBoolean) {
+          setOpenModalBoolean(false);
+        }
+      }}
     >
       {header && (
         <FlowbiteModal.Header className={headerClassName}>
