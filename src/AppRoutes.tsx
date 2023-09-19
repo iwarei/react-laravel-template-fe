@@ -29,7 +29,14 @@ const AppRoutes = () => {
         <Route path="login" element={<Login />} />
         <Route path="forgot-password" element={<ForgotPassword />} />
         <Route path="password-reset/*" element={<ResetPassword />} />
-        <Route path="account" element={<Account />} />
+        <Route
+          path="account"
+          element={
+            <RouteAuthGuard>
+              <Account />
+            </RouteAuthGuard>
+          }
+        />
         <Route path="*" element={<ErrorPage />} />
       </Routes>
     </BrowserRouter>
