@@ -12,7 +12,7 @@ import { useAuth } from '../../hooks/useAuth';
 
 export const Account = () => {
   const { setAlert } = useContext(AlertContext)!;
-  const { setUserInfo, userInfo } = useContext(AuthInfoContext)!;
+  const { userInfo } = useContext(AuthInfoContext)!;
   const { getUserInfo } = useAuth();
 
   type AccountInfoReqType = {
@@ -27,19 +27,18 @@ export const Account = () => {
     initialAccountInfoReq
   );
 
-  type PasswordChangeType = {
+  type PasswordChangeReqType = {
     current_password: string | undefined;
     password: string | undefined;
     password_confirmation: string | undefined;
   };
-  const initialPasswordChange: PasswordChangeType = {
+  const initialPasswordChange: PasswordChangeReqType = {
     current_password: undefined,
     password: undefined,
     password_confirmation: undefined,
   };
-  const [passwordChange, setPasswordChange] = useState<PasswordChangeType>(
-    initialPasswordChange
-  );
+  const [passwordChangeReq, setPasswordChangeReq] =
+    useState<PasswordChangeReqType>(initialPasswordChange);
 
   const setErrorAlert = (msg: string) => {
     setAlert({
@@ -55,7 +54,9 @@ export const Account = () => {
     });
   };
 
-  const accountInfoHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const accountInfoFormHandler = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
     const { name, value } = event.target;
     setAccountInfoReq((prevData) => ({
       ...prevData,
@@ -63,24 +64,90 @@ export const Account = () => {
     }));
   };
 
-  const passwordChangeHandler = (
+  const passwordChangeFormHandler = (
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
     const { name, value } = event.target;
-    setPasswordChange((prevData) => ({
+    setPasswordChangeReq((prevData) => ({
       ...prevData,
       [name]: value,
     }));
   };
 
   const updateAccountInfoHandler = async () => {
+    // 入力内容検証
+    const validation = () => {
+      if (!accountInfoReq.name || !accountInfoReq.email) {
+        // 未入力項目がある場合
+        setErrorAlert('入力されていない項目があります。');
+        return false;
+      }
+      return true;
+    };
+
+    // 入力検証がNGだった場合、処理中断
+    if (!validation()) {
+      return;
+    }
+
+    // ユーザ情報更新APIを投げる
     await axios
       .post(`${process.env.REACT_APP_BACKEND_URL}/api/user`, accountInfoReq)
       .then(async () => {
         setSuccessAlert('アカウント情報を更新しました。');
-
         // Contextのユーザー情報を更新
         await getUserInfo({});
+      })
+      .catch((error) => {
+        setErrorAlert(
+          `エラーが発生しました。[${error?.response?.data?.message}]`
+        );
+      });
+  };
+
+  const updatePasswordHandler = async () => {
+    // 入力内容検証
+    const validation = () => {
+      if (
+        passwordChangeReq.password !== passwordChangeReq.password_confirmation
+      ) {
+        // パスワードとパスワード(再入力)が一致しない場合
+        setErrorAlert(
+          '新しいパスワードと新しいパスワード(再入力)が一致しません。'
+        );
+        return false;
+      }
+      if (
+        passwordChangeReq.password &&
+        (passwordChangeReq?.password.length < 8 ||
+          passwordChangeReq?.password.length > 16)
+      ) {
+        // パスワードが8文字以上16文字以下でない場合
+        setErrorAlert('パスワードは8文字以上16文字以下で入力してください。');
+        return false;
+      }
+      if (
+        !passwordChangeReq.password ||
+        !passwordChangeReq.password_confirmation ||
+        !passwordChangeReq.current_password
+      ) {
+        // 未入力項目がある場合
+        setErrorAlert('入力されていない項目があります。');
+        return false;
+      }
+      return true;
+    };
+
+    // 入力検証がNGだった場合、処理中断
+    if (!validation()) {
+      return;
+    }
+
+    // パスワード更新APIを叩く
+    await axios
+      .post(`${process.env.REACT_APP_BACKEND_URL}/api/user`, passwordChangeReq)
+      .then(async () => {
+        setSuccessAlert('パスワードを更新しました。');
       })
       .catch((error) => {
         setErrorAlert(
@@ -94,18 +161,18 @@ export const Account = () => {
       {/* アカウント情報ブロック (名前、メアド更新) */}
       <Block>
         <Heading.H5 text="アカウント情報" />
-        <Text>アカウント情報とメールアドレスを更新できます</Text>
+        <Text>アカウント情報とメールアドレスを更新できます。</Text>
         <InputFormWithLabel
           labelText="名前"
           formName="name"
           value={userInfo?.name ?? ''}
-          onChange={accountInfoHandler}
+          onChange={accountInfoFormHandler}
         />
         <InputFormWithLabel
           labelText="メールアドレス"
           formName="email"
           value={userInfo?.email ?? ''}
-          onChange={accountInfoHandler}
+          onChange={accountInfoFormHandler}
         />
         <div className="flex justify-center place-items-center relative">
           <PrimaryButton
@@ -122,22 +189,25 @@ export const Account = () => {
       <Block>
         <Heading.H5 text="パスワード変更" />
         <Text>
-          十分に長くランダムなパスワードを使用して、アカウントのセキュリティを高めましょう
+          十分に長くランダムなパスワードを使用して、アカウントのセキュリティを高めましょう。
         </Text>
         <InputFormWithLabel
           labelText="現在のパスワード"
+          type="password"
           formName="current_password"
-          onChange={passwordChangeHandler}
+          onChange={passwordChangeFormHandler}
         />
         <InputFormWithLabel
           labelText="新しいパスワード"
+          type="password"
           formName="password"
-          onChange={passwordChangeHandler}
+          onChange={passwordChangeFormHandler}
         />
         <InputFormWithLabel
           labelText="新しいパスワード (確認用)"
+          type="password"
           formName="password_confirmation"
-          onChange={passwordChangeHandler}
+          onChange={passwordChangeFormHandler}
         />
         <div className="flex justify-center place-items-center relative">
           <PrimaryButton
@@ -145,7 +215,7 @@ export const Account = () => {
             text="変更"
             id="register-button"
             addClass={['w-32']}
-            // onClick={updateProfileHandler}
+            onClick={updatePasswordHandler}
           />
         </div>
       </Block>
