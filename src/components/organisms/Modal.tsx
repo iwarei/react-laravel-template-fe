@@ -5,16 +5,16 @@ type ModalProps = {
   name?: string; // モーダル名 指定なしの場合'modal'となる
   openModal?: (string | undefined) | boolean; // モーダル表示状態のuseState
   setOpenModal?: React.Dispatch<React.SetStateAction<string | undefined>>; // モーダル表示状態のuseState
-  children: React.ReactNode; // モーダルのボディの表示内容
   setOpenModalBoolean?: React.Dispatch<React.SetStateAction<boolean>>; // モーダル表示状態のuseState
+  children: React.ReactNode; // モーダルのボディの表示内容
   header?: React.ReactNode | string | boolean; // モーダルのヘッダの表示内容
   headerClassName?: string;
   footer?: React.ReactNode; // モーダルのフッターの表示内容
   footerClassName?: string;
   size?: // モーダルの表示サイズ
   'sm' | 'md' | 'lg' | 'xl' | '2xl' | '3xl' | '4xl' | '5xl' | '6xl' | '7xl';
-  staticModal?: boolean; // モーダル外を押下された場合、モーダルを閉じるか否か。
-  show?: boolean; // 常に表示状態にする (モーダル外でモーダル表示制御を行いたい場合に使用) ヘッダの閉じる(×)は動作しなくなるので注意
+  staticModal?: boolean; // モーダル外を押下された場合、モーダルを閉じるか否か。デフォルトはfalse。
+  show?: boolean; // trueの間、常に表示状態にする (モーダル外でモーダル表示制御を行いたい場合に使用)。ヘッダの閉じる(×)は動作しなくなるので注意。主に開発時用、または完全に画面上で制御する場合に使用。
 };
 
 export const Modal = ({
@@ -33,7 +33,7 @@ export const Modal = ({
 }: ModalProps) => {
   return (
     <FlowbiteModal
-      show={show ?? (openModal === name || openModal === true)}
+      show={show || openModal === name || openModal === true}
       size={size}
       dismissible={!staticModal}
       onClose={() => {
