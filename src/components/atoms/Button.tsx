@@ -5,7 +5,7 @@ type ButtonProps = {
   text: string;
   className?: string[];
   addClass?: string[];
-  id: string;
+  id?: string | undefined;
   name?: string;
   disabled?: boolean;
   onClick?: () => void;
@@ -77,7 +77,7 @@ export const CommonButton = ({
     'focus:ring-gray-200',
   ],
   addClass = [],
-  id = '',
+  id,
   name,
   disabled = false,
   onClick,
@@ -120,7 +120,7 @@ export const DangerButton = ({
     'dark:focus:ring-red-900',
   ],
   addClass = [],
-  id = '',
+  id,
   name,
   disabled = false,
   onClick,
@@ -173,7 +173,7 @@ export const RoundButton = ({
     'items-center',
   ],
   addClass = [],
-  id = '',
+  id,
   name = '',
   disabled = false,
   children,

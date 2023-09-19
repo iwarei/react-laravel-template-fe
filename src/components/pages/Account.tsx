@@ -1,8 +1,9 @@
 import React, { useState, useContext } from 'react';
 import axios from 'axios';
 import { PageTemplate } from '../templates/PageTemplate';
+import { Modal } from '../organisms/Modal';
 import { InputFormWithLabel } from '../molecules/InputFormWithLabel';
-import { PrimaryButton, DangerButton } from '../atoms/Button';
+import { PrimaryButton, CommonButton, DangerButton } from '../atoms/Button';
 import { Heading } from '../atoms/Heading';
 import { Block } from '../atoms/Block';
 import { Text } from '../atoms/Text';
@@ -14,6 +15,9 @@ export const Account = () => {
   const { setAlert, clearAlert } = useContext(AlertContext)!;
   const { userInfo } = useContext(AuthInfoContext)!;
   const { getUserInfo } = useAuth();
+
+  // アカウント削除確認用モーダルの表示状態
+  const [showAccountDeleteModal, setShowAccountDeleteModal] = useState(false);
 
   // アカウント情報更新時のリクエストパラメータの準備、初期化
   type AccountInfoReqType = {
@@ -169,6 +173,33 @@ export const Account = () => {
     console.log('test');
   };
 
+  // アカウント削除確認モーダルのボディ部分
+  const accountDeleteModalBody: JSX.Element = (
+    <>
+      <Heading.H5 text="アカウント削除の確認" />
+      <Text>
+        アカウントを削除すると、全てのデータとファイルも完全に削除されます。
+        <br />
+        本当に削除する場合は、確認のためにパスワードを入力し削除ボタンを押してください。
+      </Text>
+      <InputFormWithLabel
+        labelText="パスワード"
+        type="password"
+        formName="password"
+        formId="account-delete-password"
+        onChange={accountInfoFormHandler}
+      />
+    </>
+  );
+
+  // アカウント削除確認モーダルのフッター部分
+  const accountDeleteModalFooter: JSX.Element = (
+    <div className="w-full flex justify-end">
+      <CommonButton text="キャンセル" />
+      <DangerButton text="アカウントを削除" />
+    </div>
+  );
+
   return (
     <PageTemplate headerText="アカウント">
       {/* アカウント情報ブロック (名前、メアド更新) */}
@@ -191,7 +222,6 @@ export const Account = () => {
           <PrimaryButton
             type="button"
             text="更新"
-            id="register-button"
             addClass={['w-32']}
             onClick={updateAccountInfoHandler}
           />
@@ -226,7 +256,6 @@ export const Account = () => {
           <PrimaryButton
             type="button"
             text="変更"
-            id="register-button"
             addClass={['w-32']}
             onClick={updatePasswordHandler}
           />
@@ -238,19 +267,24 @@ export const Account = () => {
         <Heading.H5 text="アカウント削除" />
         <Text>
           アカウントを削除すると、全てのデータとファイルも完全に削除されます。
-          <br />
-          アカウントを削除する前に必要なデータがあれば事前にダウンロードの実施をお願いします。
         </Text>
         <div className="flex justify-center place-items-center relative">
           <DangerButton
             type="button"
             text="アカウントの削除"
-            id="register-button"
             addClass={['w-64']}
             onClick={openDeleteAccountModalHandler}
           />
         </div>
       </Block>
+      {/* アカウント削除確認モーダル */}
+      <Modal
+        openModal={showAccountDeleteModal}
+        setOpenModalBoolean={setShowAccountDeleteModal}
+        footer={accountDeleteModalFooter}
+      >
+        {accountDeleteModalBody}
+      </Modal>
     </PageTemplate>
   );
 };
