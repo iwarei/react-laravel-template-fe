@@ -11,7 +11,7 @@ import { AuthInfoContext } from '../../context/AuthProvider';
 import { useAuth } from '../../hooks/useAuth';
 
 export const Account = () => {
-  const { setAlert } = useContext(AlertContext)!;
+  const { setAlert, clearAlert } = useContext(AlertContext)!;
   const { userInfo } = useContext(AuthInfoContext)!;
   const { getUserInfo } = useAuth();
 
@@ -77,6 +77,7 @@ export const Account = () => {
   const updateAccountInfoHandler = async () => {
     // 入力内容検証
     const validation = () => {
+      clearAlert();
       if (!accountInfoReq.name || !accountInfoReq.email) {
         // 未入力項目がある場合
         setErrorAlert('入力されていない項目があります。');
@@ -108,6 +109,7 @@ export const Account = () => {
   const updatePasswordHandler = async () => {
     // 入力内容検証
     const validation = () => {
+      clearAlert();
       if (
         passwordChangeReq.password !== passwordChangeReq.password_confirmation
       ) {
@@ -154,6 +156,10 @@ export const Account = () => {
           `エラーが発生しました。[${error?.response?.data?.message}]`
         );
       });
+  };
+
+  const openDeleteAccountModalHandler = () => {
+    console.log('test');
   };
 
   return (
@@ -234,7 +240,7 @@ export const Account = () => {
             text="アカウントの削除"
             id="register-button"
             addClass={['w-64']}
-            // onClick={updateProfileHandler}
+            onClick={openDeleteAccountModalHandler}
           />
         </div>
       </Block>

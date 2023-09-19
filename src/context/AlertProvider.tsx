@@ -8,6 +8,7 @@ type AlertType = {
 type AlertContextType = {
   alert: AlertType | undefined;
   setAlert: React.Dispatch<React.SetStateAction<AlertType | undefined>>;
+  clearAlert: () => void;
 };
 
 export const AlertContext = createContext<AlertContextType | undefined>(
