@@ -15,6 +15,7 @@ export const Account = () => {
   const { userInfo } = useContext(AuthInfoContext)!;
   const { getUserInfo } = useAuth();
 
+  // アカウント情報更新時のリクエストパラメータの準備、初期化
   type AccountInfoReqType = {
     name: string;
     email: string;
@@ -27,6 +28,7 @@ export const Account = () => {
     initialAccountInfoReq
   );
 
+  // パスワード変更時のリクエストパラメータの準備、初期化
   type PasswordChangeReqType = {
     current_password: string | undefined;
     password: string | undefined;
@@ -54,6 +56,7 @@ export const Account = () => {
     });
   };
 
+  // アカウント情報更新の入力フォーム内容変更時のイベントハンドラ
   const accountInfoFormHandler = (
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
@@ -64,6 +67,7 @@ export const Account = () => {
     }));
   };
 
+  // パスワード変更の入力フォーム内容変更時のイベントハンドラ
   const passwordChangeFormHandler = (
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
@@ -74,6 +78,7 @@ export const Account = () => {
     }));
   };
 
+  // アカウント情報更新ボタン押下時のイベントハンドラ
   const updateAccountInfoHandler = async () => {
     // 入力内容検証
     const validation = () => {
@@ -106,6 +111,7 @@ export const Account = () => {
       });
   };
 
+  // パスワード変更ボタン押下時のイベントハンドラ
   const updatePasswordHandler = async () => {
     // 入力内容検証
     const validation = () => {
@@ -158,6 +164,7 @@ export const Account = () => {
       });
   };
 
+  // アカウント削除ボタン押下時のイベントハンドラ (モーダルを開く)
   const openDeleteAccountModalHandler = () => {
     console.log('test');
   };
