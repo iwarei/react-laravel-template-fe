@@ -101,7 +101,13 @@ export const useAuth = () => {
       });
   };
 
-  const getUserInfo = async (redirect: string, msg: string) => {
+  const getUserInfo = async ({
+    redirect,
+    msg,
+  }: {
+    redirect?: string | undefined;
+    msg?: string | undefined;
+  }) => {
     await axios
       .get(`${process.env.REACT_APP_BACKEND_URL}/api/user`)
       .then((response) => {
@@ -111,7 +117,10 @@ export const useAuth = () => {
           name: response.data.name,
           email: response.data.email,
         });
-
+        // redirectが指定されていない場合何もしない
+        if (!redirect) {
+          return;
+        }
         navigate(redirect, {
           state: { msg, color: 'success' },
         });
@@ -135,7 +144,10 @@ export const useAuth = () => {
       })
       .then(async (response) => {
         if (response.status === 204) {
-          await getUserInfo(redirect, `ユーザー登録しました。`);
+          await getUserInfo({
+            redirect,
+            msg: 'ユーザー登録しました。',
+          });
         }
       })
       .catch((error) => {
@@ -152,7 +164,7 @@ export const useAuth = () => {
       .post(`${process.env.REACT_APP_BACKEND_URL}/api/login`, reqData)
       .then(async (response) => {
         if (response.status === 204) {
-          await getUserInfo(redirect, `ログインしました。`);
+          await getUserInfo({ redirect, msg: `ログインしました。` });
         }
       })
       .catch((error) => {
@@ -243,5 +255,13 @@ export const useAuth = () => {
       });
   };
 
-  return { autoLogin, register, login, logout, sendResetMail, resetPassword };
+  return {
+    autoLogin,
+    register,
+    getUserInfo,
+    login,
+    logout,
+    sendResetMail,
+    resetPassword,
+  };
 };
