@@ -140,6 +140,40 @@ export const DangerButton = ({
   );
 };
 
+export const LinkButton = ({
+  type = 'button',
+  text,
+  className = [
+    'font-medium',
+    'text-blue-600',
+    'dark:text-blue-500',
+    'hover:underline',
+    'mx-2',
+    'mb-2',
+  ],
+  addClass = [],
+  id,
+  name,
+  disabled = false,
+
+  onClick,
+}: ButtonProps) => {
+  const classNames = [...className, ...addClass].join(' ');
+
+  return (
+    <button
+      type={type}
+      className={classNames}
+      name={name ?? ''}
+      id={id}
+      disabled={disabled}
+      onClick={onClick}
+    >
+      {text}
+    </button>
+  );
+};
+
 // ButtonProps + children
 type RoundButtonProps = {
   type?: 'button' | 'submit' | 'reset';

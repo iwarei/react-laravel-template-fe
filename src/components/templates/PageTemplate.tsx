@@ -1,7 +1,7 @@
 import React, { ReactNode, useContext, useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { Navbar } from '../organisms/Navbar';
-import { DismissableAlert } from '../atoms/Alert';
+import { Alert } from '../atoms/Alert';
 import { Heading } from '../atoms/Heading';
 import { AlertContext } from '../../context/AlertProvider';
 import { Spinner } from '../atoms/Spinner';
@@ -69,7 +69,7 @@ export const PageTemplate = ({
       <main className="max-w-5xl mx-auto py-4 px-6">
         {/* アラートメッセージを表示 */}
         {(alert?.msg || location.state?.msg) && (
-          <DismissableAlert
+          <Alert
             addClass={['mb-3']}
             color={
               alert?.msg
@@ -88,11 +88,11 @@ export const PageTemplate = ({
           <>
             <div
               role="status"
-              className="fixed -translate-x-1/2 -translate-y-1/2 top-2/4 left-1/2 z-20"
+              className="fixed -translate-x-1/2 -translate-y-1/2 top-2/4 left-1/2 z-[1000]"
             >
               <Spinner />
             </div>
-            <div className="fixed top-0 left-0 w-full h-full bg-black opacity-50 visible z-10" />
+            <div className="fixed top-0 left-0 w-full h-full bg-black opacity-50 visible z-[999]" />
           </>
         )}
       </main>
