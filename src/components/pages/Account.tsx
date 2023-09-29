@@ -248,6 +248,7 @@ export const Account = () => {
         labelText="パスワード"
         type="password"
         formName="password"
+        autocomplete="current-password"
         formId="account-delete-password"
         onChange={accountDeleteFormHandler}
       />
@@ -276,12 +277,14 @@ export const Account = () => {
           labelText="名前"
           formName="name"
           value={userInfo?.name ?? ''}
+          autocomplete="name"
           onChange={accountInfoFormHandler}
         />
         <InputFormWithLabel
           labelText="メールアドレス"
           formName="email"
           value={userInfo?.email ?? ''}
+          autocomplete="email"
           onChange={accountInfoFormHandler}
         />
         <div className="flex justify-center place-items-center relative">
@@ -303,18 +306,21 @@ export const Account = () => {
         <InputFormWithLabel
           labelText="現在のパスワード"
           type="password"
+          autocomplete="current-password"
           formName="current_password"
           onChange={passwordChangeFormHandler}
         />
         <InputFormWithLabel
           labelText="新しいパスワード"
           type="password"
+          autocomplete="new-password"
           formName="password"
           onChange={passwordChangeFormHandler}
         />
         <InputFormWithLabel
           labelText="新しいパスワード (確認用)"
           type="password"
+          autocomplete="new-password"
           formName="password_confirmation"
           onChange={passwordChangeFormHandler}
         />

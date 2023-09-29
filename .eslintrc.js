@@ -38,6 +38,14 @@ module.exports = {
     'arrow-body-style': 'off',
     'import/no-extraneous-dependencies': ['error', { devDependencies: true }],
     'react/jsx-no-useless-fragment': 'warn',
+    'react/jsx-props-no-spreading': [
+      'off',
+      {
+        html: 'enforce',
+        custom: 'enforce',
+        explicitSpread: 'ignore',
+      },
+    ],
   },
   settings: {
     'import/resolver': {

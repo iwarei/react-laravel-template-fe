@@ -29,6 +29,7 @@ export const ForgotPassword = () => {
       <InputFormWithLabel
         labelText="メールアドレス"
         formName="email"
+        autocomplete="email"
         onChange={inputChangeHandler}
       />
       <div className="flex justify-center">

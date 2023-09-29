@@ -46,18 +46,21 @@ export const ResetPassword = () => {
         formName="email"
         onChange={inputChangeHandler}
         value={email}
+        autocomplete="email"
         disabled
       />
       <InputFormWithLabel
         labelText="新しいパスワード"
         formName="password"
         type="password"
+        autocomplete="new-password"
         onChange={inputChangeHandler}
       />
       <InputFormWithLabel
         labelText="新しいパスワード (確認用)"
         formName="password_confirmation"
         type="password"
+        autocomplete="new-password"
         onChange={inputChangeHandler}
       />
 
