@@ -1,15 +1,10 @@
 import React from 'react';
-import { InputForm } from '../atoms/Input';
+import { InputFile } from '../atoms/Input';
 import { Label } from '../atoms/Label';
 
-type InputFormWithLabelProps = {
-  type?: string;
-  value?: string;
-  formClass?: string[];
+type InputFileWithLabelProps = {
   formId?: string;
   formName: string;
-  placeholder?: string;
-  autocomplete?: string;
   disabled?: boolean;
   labelText: string;
   labelClass?: string[];
@@ -17,20 +12,15 @@ type InputFormWithLabelProps = {
   onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
 };
 
-export const InputFormWithLabel = ({
-  type = 'text',
-  value,
-  formClass,
+export const InputFileWithLabel = ({
   formId,
   formName,
-  placeholder,
-  autocomplete,
   disabled,
   labelText,
   labelClass,
   labelId,
   onChange,
-}: InputFormWithLabelProps) => {
+}: InputFileWithLabelProps) => {
   return (
     <div className="mb-4">
       <Label
@@ -39,14 +29,9 @@ export const InputFormWithLabel = ({
         htmlFor={formId ?? formName}
         id={labelId ?? ''}
       />
-      <InputForm
-        type={type}
-        className={formClass}
+      <InputFile
         id={formId ?? formName}
         name={formName}
-        value={value ?? ''}
-        placeholder={placeholder}
-        autocomplete={autocomplete}
         disabled={disabled}
         onChange={onChange}
       />

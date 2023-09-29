@@ -8,13 +8,15 @@ type ModalProps = {
   setOpenModalBoolean?: React.Dispatch<React.SetStateAction<boolean>>; // モーダル表示状態のuseState
   children: React.ReactNode; // モーダルのボディの表示内容
   header?: React.ReactNode | string | boolean; // モーダルのヘッダの表示内容
-  headerClassName?: string;
+  headerClassName?: string | undefined;
+  bodyClassName?: string | undefined;
   footer?: React.ReactNode; // モーダルのフッターの表示内容
-  footerClassName?: string;
+  footerClassName?: string | undefined;
   size?: // モーダルの表示サイズ
   'sm' | 'md' | 'lg' | 'xl' | '2xl' | '3xl' | '4xl' | '5xl' | '6xl' | '7xl';
-  staticModal?: boolean; // モーダル外を押下された場合、モーダルを閉じるか否か。デフォルトはfalse。
-  show?: boolean; // trueの間、常に表示状態にする (モーダル外でモーダル表示制御を行いたい場合に使用)。ヘッダの閉じる(×)は動作しなくなるので注意。主に開発時用、または完全に画面上で制御する場合に使用。
+  staticModal?: boolean; // モーダル外を押下された場合、モーダルを閉じるか否か。
+  overlay?: boolean; // モーダルの背景をグレーアウトするか否か。複数のモーダルを表示させる場合に使用。
+  show?: boolean; // 常に表示状態にする (モーダル外でモーダル表示制御を行いたい場合に使用) ヘッダの閉じる(×)は動作しなくなるので注意
 };
 
 export const Modal = ({
@@ -24,16 +26,24 @@ export const Modal = ({
   setOpenModalBoolean,
   children,
   header,
-  headerClassName = '',
+  headerClassName,
+  bodyClassName,
   footer,
-  footerClassName = '',
+  footerClassName,
   size = '2xl',
   staticModal = false,
-  show = false,
+  overlay = true,
+  show,
 }: ModalProps) => {
   return (
     <FlowbiteModal
-      show={show || openModal === name || openModal === true}
+      className={`${
+        // モーダルの背景のグレーアウト
+        overlay
+          ? 'bg-opacity-50 dark:bg-opacity-80'
+          : 'bg-opacity-0 dark:bg-opacity-0'
+      }`}
+      show={show ?? (openModal === name || openModal === true)}
       size={size}
       dismissible={!staticModal}
       onClose={() => {
@@ -49,7 +59,7 @@ export const Modal = ({
           {header}
         </FlowbiteModal.Header>
       )}
-      <FlowbiteModal.Body>
+      <FlowbiteModal.Body className={bodyClassName}>
         <div className="space-y-6">{children}</div>
       </FlowbiteModal.Body>
       {footer && (

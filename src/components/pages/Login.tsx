@@ -32,12 +32,14 @@ export const Login = () => {
       <InputFormWithLabel
         labelText="メールアドレス"
         formName="email"
+        autocomplete="email"
         onChange={inputChangeHandler}
       />
       <InputFormWithLabel
         labelText="パスワード"
         formName="password"
         type="password"
+        autocomplete="current-password"
         onChange={inputChangeHandler}
       />
       <div className="flex justify-center place-items-center relative">
@@ -51,7 +53,17 @@ export const Login = () => {
         <Link
           text="パスワードを忘れた場合"
           href="/forgot-password"
-          addClass={['absolute', '-right-0', 'sm:text-xs', 'md:text-base']}
+          addClass={[
+            'absolute',
+            'right-0',
+            'break-words',
+            'max-w-[96px]',
+            'text-sm',
+            'sm:mx-0',
+            'md:mx-2',
+            'md:text-base',
+            'md:max-w-max',
+          ]}
         />
       </div>
     </PageTemplate>

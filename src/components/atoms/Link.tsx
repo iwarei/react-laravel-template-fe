@@ -15,7 +15,6 @@ export const Link = ({
     'text-blue-600',
     'dark:text-blue-500',
     'hover:underline',
-    'mx-2',
     'mb-2',
   ],
   addClass = [],

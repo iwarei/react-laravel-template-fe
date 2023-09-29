@@ -1,16 +1,35 @@
 import React, { useState } from 'react';
-import { Alert } from 'flowbite-react';
+import { Alert as FlowbiteAlert } from 'flowbite-react';
 
 type AlertProps = {
   message: string;
-  color?: string;
+  color?:
+    | 'info'
+    | 'gray'
+    | 'failure'
+    | 'success'
+    | 'warning'
+    | 'red'
+    | 'green'
+    | 'yellow'
+    | 'blue'
+    | 'cyan'
+    | 'pink'
+    | 'lime'
+    | 'dark'
+    | 'indigo'
+    | 'purple'
+    | 'teal'
+    | 'light';
   addClass?: string[];
+  dismissable?: boolean;
 };
 
-export const DismissableAlert = ({
+export const Alert = ({
   message,
   color = 'success',
   addClass = [],
+  dismissable = true,
 }: AlertProps) => {
   const classNames = [...addClass].join(' ');
 
@@ -25,10 +44,14 @@ export const DismissableAlert = ({
   }
 
   return (
-    <Alert color={color} className={classNames} onDismiss={dismissHandler}>
+    <FlowbiteAlert
+      color={color}
+      className={classNames}
+      onDismiss={dismissable ? dismissHandler : undefined}
+    >
       <span>
         <p>{message}</p>
       </span>
-    </Alert>
+    </FlowbiteAlert>
   );
 };

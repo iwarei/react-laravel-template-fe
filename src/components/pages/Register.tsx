@@ -32,23 +32,27 @@ export const Register = () => {
       <InputFormWithLabel
         labelText="名前"
         formName="name"
+        autocomplete="name"
         onChange={inputChangeHandler}
       />
       <InputFormWithLabel
         labelText="メールアドレス"
         formName="email"
+        autocomplete="email"
         onChange={inputChangeHandler}
       />
       <InputFormWithLabel
         labelText="パスワード"
         formName="password"
         type="password"
+        autocomplete="new-password"
         onChange={inputChangeHandler}
       />
       <InputFormWithLabel
         labelText="パスワード (確認用)"
         formName="password_confirmation"
         type="password"
+        autocomplete="new-password"
         onChange={inputChangeHandler}
       />
 
@@ -63,7 +67,17 @@ export const Register = () => {
         <Link
           text="ログイン画面へ"
           href="/login"
-          addClass={['absolute', '-right-0']}
+          addClass={[
+            'absolute',
+            'right-0',
+            'break-words',
+            'max-w-[96px]',
+            'text-sm',
+            'sm:mx-0',
+            'md:mx-2',
+            'md:text-base',
+            'md:max-w-max',
+          ]}
         />
       </div>
     </PageTemplate>
