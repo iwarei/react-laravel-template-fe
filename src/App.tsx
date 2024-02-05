@@ -3,6 +3,7 @@ import axios from 'axios';
 import './App.css';
 import { AuthProvider } from './context/AuthProvider';
 import { AlertProvider } from './context/AlertProvider';
+import { LoadingProvider } from './context/LoadingProvider';
 import AppRoutes from './AppRoutes';
 
 const App = () => {
@@ -11,7 +12,9 @@ const App = () => {
   return (
     <AuthProvider>
       <AlertProvider>
-        <AppRoutes />
+        <LoadingProvider>
+          <AppRoutes />
+        </LoadingProvider>
       </AlertProvider>
     </AuthProvider>
   );

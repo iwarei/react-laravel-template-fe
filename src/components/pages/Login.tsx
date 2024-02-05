@@ -47,23 +47,13 @@ export const Login = () => {
           type="button"
           text="ログイン"
           id="login-button"
-          addClass={['w-32']}
+          className="w-32"
           onClick={loginEventHandler}
         />
         <Link
           text="パスワードを忘れた場合"
           href="/forgot-password"
-          addClass={[
-            'absolute',
-            'right-0',
-            'break-words',
-            'max-w-[96px]',
-            'text-sm',
-            'sm:mx-0',
-            'md:mx-2',
-            'md:text-base',
-            'md:max-w-max',
-          ]}
+          className="absolute right-0 break-words max-w-[96px] text-sm sm:mx-0 md:mx-2 md:text-base md:max-w-max"
         />
       </div>
     </PageTemplate>

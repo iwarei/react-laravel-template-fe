@@ -4,22 +4,21 @@ type SquareImageProps = {
   id?: string;
   src: string;
   alt?: string;
-  addClass?: string[];
+  className?: string;
 };
 
 export const SquareImage = ({
   id = '',
   src,
   alt = '...',
-  addClass = [],
+  className = '',
 }: SquareImageProps) => {
-  const classNames = [...addClass].join(' ');
-
   return (
     <div>
       <img
         src={src}
-        className="object-cover w-full h-full"
+        id={id}
+        className={`object-cover w-full h-full ${className}`}
         style={{ aspectRatio: '1/1' }}
         alt={alt}
       />

@@ -37,7 +37,7 @@ export const ForgotPassword = () => {
           type="button"
           text="確認用メールを送信"
           id="reset-button"
-          addClass={['w-48']}
+          className="w-48"
           onClick={resetEventHandler}
         />
       </div>

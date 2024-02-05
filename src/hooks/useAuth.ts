@@ -2,6 +2,7 @@ import { useContext } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { AlertContext } from '../context/AlertProvider';
+import { LoadingContext } from '../context/LoadingProvider';
 import { IsAuthedContext, AuthInfoContext } from '../context/AuthProvider';
 
 // 型定義
@@ -55,6 +56,7 @@ export const useAuth = () => {
 
   const { setIsAuthed } = useContext(IsAuthedContext)!;
   const { setUserInfo } = useContext(AuthInfoContext)!;
+  const { setLoading, unsetLoading } = useContext(LoadingContext)!;
   const { setAlert } = useContext(AlertContext)!;
 
   const setErrorAlert = (msg: string) => {
@@ -72,16 +74,21 @@ export const useAuth = () => {
   };
 
   const getCsrf = async () => {
+    setLoading();
     await axios
       .get(`${process.env.REACT_APP_BACKEND_URL}/sanctum/csrf-cookie`)
       .catch((error) => {
         setErrorAlert(
           `ログインできませんでした。[${error?.response?.data?.message ?? ''}]`
         );
+      })
+      .finally(() => {
+        unsetLoading();
       });
   };
 
   const autoLogin = async ({ redirect = '/' }) => {
+    setLoading();
     await axios
       .get(`${process.env.REACT_APP_BACKEND_URL}/api/user`)
       .then((response) => {
@@ -98,6 +105,9 @@ export const useAuth = () => {
       })
       .catch(() => {
         // 特に何もしない ログイン後の401を想定
+      })
+      .finally(() => {
+        unsetLoading();
       });
   };
 
@@ -108,6 +118,7 @@ export const useAuth = () => {
     redirect?: string | undefined;
     msg?: string | undefined;
   }) => {
+    setLoading();
     await axios
       .get(`${process.env.REACT_APP_BACKEND_URL}/api/user`)
       .then((response) => {
@@ -129,12 +140,15 @@ export const useAuth = () => {
         setErrorAlert(
           `エラーが発生しました。[${error?.response?.data?.message ?? ''}]`
         );
+      })
+      .finally(() => {
+        unsetLoading();
       });
   };
 
   const register = async ({ reqData, redirect = '/' }: RegisterType) => {
+    setLoading();
     await getCsrf();
-
     await axios
       .post(`${process.env.REACT_APP_BACKEND_URL}/api/register`, reqData, {
         headers: {
@@ -154,10 +168,14 @@ export const useAuth = () => {
         setErrorAlert(
           `ユーザー登録できませんでした。[${error?.response?.data?.message}]`
         );
+      })
+      .finally(() => {
+        unsetLoading();
       });
   };
 
   const login = async ({ reqData, redirect = '/' }: LoginType) => {
+    setLoading();
     await getCsrf();
 
     await axios
@@ -171,6 +189,9 @@ export const useAuth = () => {
         setErrorAlert(
           `ログインできませんでした。[${error?.response?.data?.message}]`
         );
+      })
+      .finally(() => {
+        unsetLoading();
       });
   };
 
@@ -181,7 +202,7 @@ export const useAuth = () => {
       setUserInfo(undefined);
       navigate(redirect);
     };
-
+    setLoading();
     await axios
       .post(`${process.env.REACT_APP_BACKEND_URL}/api/logout`)
       .then(() => {
@@ -189,10 +210,14 @@ export const useAuth = () => {
       })
       .catch(() => {
         logoutProcess();
+      })
+      .finally(() => {
+        unsetLoading();
       });
   };
 
   const sendResetMail = async ({ reqData }: SendResetMailType) => {
+    setLoading();
     await getCsrf();
 
     await axios
@@ -219,10 +244,14 @@ export const useAuth = () => {
         setErrorAlert(
           `エラーが発生しました。[${error?.response?.data?.message}]`
         );
+      })
+      .finally(() => {
+        unsetLoading();
       });
   };
 
   const resetPassword = async ({ reqData }: ResetPasswordType) => {
+    setLoading();
     await getCsrf();
 
     await axios
@@ -252,6 +281,9 @@ export const useAuth = () => {
         setErrorAlert(
           `エラーが発生しました。[${error?.response?.data?.message}]`
         );
+      })
+      .finally(() => {
+        unsetLoading();
       });
   };
 

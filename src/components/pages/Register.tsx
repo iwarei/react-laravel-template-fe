@@ -61,23 +61,13 @@ export const Register = () => {
           type="button"
           text="登録"
           id="register-button"
-          addClass={['w-32']}
+          className="w-32"
           onClick={registerEventHandler}
         />
         <Link
           text="ログイン画面へ"
           href="/login"
-          addClass={[
-            'absolute',
-            'right-0',
-            'break-words',
-            'max-w-[96px]',
-            'text-sm',
-            'sm:mx-0',
-            'md:mx-2',
-            'md:text-base',
-            'md:max-w-max',
-          ]}
+          className="absolute right-0 break-words max-w-[96px] text-sm sm:mx-0 md:mx-2 md:text-base md:max-w-max"
         />
       </div>
     </PageTemplate>
