@@ -291,7 +291,7 @@ export const Account = () => {
           <PrimaryButton
             type="button"
             text="更新"
-            addClass={['w-32']}
+            className='w-32'
             onClick={updateAccountInfoHandler}
           />
         </div>
@@ -328,7 +328,7 @@ export const Account = () => {
           <PrimaryButton
             type="button"
             text="変更"
-            addClass={['w-32']}
+            className="w-32"
             onClick={updatePasswordHandler}
           />
         </div>
@@ -344,7 +344,7 @@ export const Account = () => {
           <DangerButton
             type="button"
             text="アカウントの削除"
-            addClass={['w-64']}
+            className="w-64"
             // 押下時アカウント削除確認モーダル表示
             onClick={() => setShowAccountDeleteModal(true)}
           />

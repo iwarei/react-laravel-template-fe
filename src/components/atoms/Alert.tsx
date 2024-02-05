@@ -21,18 +21,16 @@ type AlertProps = {
     | 'purple'
     | 'teal'
     | 'light';
-  addClass?: string[];
+  className?: string;
   dismissable?: boolean;
 };
 
 export const Alert = ({
   message,
   color = 'success',
-  addClass = [],
+  className = '',
   dismissable = true,
 }: AlertProps) => {
-  const classNames = [...addClass].join(' ');
-
   const [display, setDisplay] = useState<boolean>(true);
 
   const dismissHandler = () => {
@@ -46,7 +44,7 @@ export const Alert = ({
   return (
     <FlowbiteAlert
       color={color}
-      className={classNames}
+      className={className}
       onDismiss={dismissable ? dismissHandler : undefined}
     >
       <span>

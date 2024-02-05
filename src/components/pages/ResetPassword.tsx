@@ -69,7 +69,7 @@ export const ResetPassword = () => {
           type="button"
           text="リセット"
           id="reset-button"
-          addClass={['w-32']}
+          className="w-32"
           onClick={resetEventHandler}
         />
       </div>

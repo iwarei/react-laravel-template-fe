@@ -5,7 +5,7 @@ import { Label } from '../atoms/Label';
 type InputFormWithLabelProps = {
   type?: string;
   value?: string;
-  formClass?: string[];
+  formClass?: string;
   formId?: string;
   formName: string;
   placeholder?: string;

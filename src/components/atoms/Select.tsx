@@ -26,11 +26,18 @@ export const Select = ({
       disabled={disabled}
       onChange={onChange}
     >
-      {value.map((v, i) => (
-        <option value={v} selected={selected ? selected[i] : undefined}>
-          {text[i]}
-        </option>
-      ))}
+      {value.map((v, i) => {
+        const key = `${i}-${v}`;
+        return (
+          <option
+            key={key}
+            value={v}
+            selected={selected ? selected[i] : undefined}
+          >
+            {text[i]}
+          </option>
+        );
+      })}
     </select>
   );
 };

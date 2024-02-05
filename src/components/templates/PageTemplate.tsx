@@ -7,6 +7,7 @@ import { AlertContext } from '../../context/AlertProvider';
 import { Spinner } from '../atoms/Spinner';
 import { IsAuthedContext } from '../../context/AuthProvider';
 import { useAuth } from '../../hooks/useAuth';
+import { LoadingContext } from '../../context/LoadingProvider';
 
 type PageTemplateProps = {
   headerText?: string;
@@ -21,10 +22,11 @@ export const PageTemplate = ({
   children,
   showNavbarButton = true,
   enableAutoLogin = true,
-  loading = false,
+  loading: propsLoading = false,
 }: PageTemplateProps) => {
   const location = useLocation();
   const { alert, setAlert } = useContext(AlertContext)!;
+  const { loading } = useContext(LoadingContext)!;
   const { isAuthed } = useContext(IsAuthedContext)!;
   const { autoLogin } = useAuth();
   const [isLoading, setIsLoading] = useState<boolean>(enableAutoLogin);
@@ -70,7 +72,7 @@ export const PageTemplate = ({
         {/* アラートメッセージを表示 */}
         {(alert?.msg || location.state?.msg) && (
           <Alert
-            addClass={['mb-3']}
+            className="mb-3 mt-16"
             color={
               alert?.msg
                 ? alert?.color ?? 'success'
@@ -84,7 +86,7 @@ export const PageTemplate = ({
         {/* 画面要素 */}
         {children}
         {/* ロード中 画面を暗くしスピナーを表示する */}
-        {loading && (
+        {(propsLoading || loading) && (
           <>
             <div
               role="status"

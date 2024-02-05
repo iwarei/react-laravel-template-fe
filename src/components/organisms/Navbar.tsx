@@ -6,6 +6,8 @@ import { useAuth } from '../../hooks/useAuth';
 
 type NavbarProps = {
   showButton?: boolean;
+  className?: string;
+  divClassName?: string;
 };
 
 type NavbarLinkProps = {
@@ -62,7 +64,11 @@ const NavbarLink = ({ link, text, onClick }: NavbarLinkProps) => {
   );
 };
 
-export const Navbar = ({ showButton = true }: NavbarProps) => {
+export const Navbar = ({
+  showButton = true,
+  className = '',
+  divClassName = '',
+}: NavbarProps) => {
   const navigate = useNavigate();
 
   const [isNavbarOpen, setIsNavbarOpen] = useState(false);
@@ -101,8 +107,12 @@ export const Navbar = ({ showButton = true }: NavbarProps) => {
   }, [width]);
 
   return (
-    <nav className="border-gray-200 bg-gray-100 dark:bg-gray-800 dark:border-gray-700">
-      <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
+    <nav
+      className={`border-gray-200 bg-gray-100 dark:bg-gray-800 dark:border-gray-700 ${className}`}
+    >
+      <div
+        className={`max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4 ${divClassName}`}
+      >
         {/* ナビバーの左サイドのロゴ・リンク */}
         {!isAuthed ? (
           // 未認証時はaタグでリンクを貼る
