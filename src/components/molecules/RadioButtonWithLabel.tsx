@@ -9,7 +9,7 @@ type RadioButtonWithLabelProps = {
   checked?: boolean;
   disabled?: boolean;
   labelText: string;
-  labelClass?: string[];
+  labelClass?: string;
   labelId?: string;
   onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
 };
@@ -37,11 +37,7 @@ export const RadioButtonWithLabel = ({
       />
       <Label
         text={labelText}
-        className={
-          labelClass !== undefined
-            ? [...labelClass, 'ml-2 mt-1']
-            : ['ml-2 mt-1']
-        }
+        className={`ml-2 mt-1 ${labelClass}`}
         htmlFor={radioButtonId ?? name}
         id={labelId ?? undefined}
       />

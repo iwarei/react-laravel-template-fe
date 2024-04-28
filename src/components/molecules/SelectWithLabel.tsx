@@ -10,7 +10,7 @@ type SelectWithLabelProps = {
   optionText: string[] | number[];
   disabled?: boolean;
   labelText: string;
-  labelClass?: string[];
+  labelClass?: string;
   labelId?: string;
   onChange?: (event: React.ChangeEvent<HTMLSelectElement>) => void;
 };
