@@ -7,7 +7,7 @@ type InputFileWithLabelProps = {
   formName: string;
   disabled?: boolean;
   labelText: string;
-  labelClass?: string[];
+  labelClass?: string;
   labelId?: string;
   onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
 };
